@@ -2,6 +2,8 @@ name: auto-format
 on: [push, pull_request, workflow_dispatch]
 jobs:
   format:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
