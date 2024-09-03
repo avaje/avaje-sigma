@@ -78,13 +78,13 @@ public interface Routing {
   interface Entry {
 
     /** Return the type of entry. */
-    HttpMethod getType();
+    HttpMethod type();
 
     /** Return the full path of the entry. */
-    String getPath();
+    String path();
 
     /** Return the handler. */
-    Handler getHandler();
+    Handler handler();
   }
 
   /** The type of route entry. */

@@ -1,4 +1,4 @@
-package io.avaje.http.lambda;
+package io.avaje.sigma;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.avaje.sigma.Sigma;
 import io.avaje.sigma.aws.events.ALBHttpEvent;
-import io.avaje.sigma.json.JacksonService;
 
 class SigmaTest {
 
@@ -20,7 +19,7 @@ class SigmaTest {
   @BeforeEach
   void setUpBeforeClass() throws JsonProcessingException {
 
-    this.sigma = Sigma.create().jsonService(new JacksonService());
+    this.sigma = Sigma.create();
     String exampleEvent =
         """
                 {
@@ -69,6 +68,6 @@ class SigmaTest {
                     })
                 .before(ctx -> ctx.attribute("before", "attribute")));
 
-    sigma.createAWSHandler().handle(albExample, null);
+    sigma.createHttpFunction().apply(albExample, null);
   }
 }

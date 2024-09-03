@@ -9,24 +9,10 @@ public class JsonbService implements JsonService {
 
   public JsonbService(Jsonb delegate) {
     this.delegate = delegate;
-    testState();
   }
 
   public JsonbService() {
     this.delegate = Jsonb.builder().build();
-  }
-
-  private void testState() {
-
-    try {
-
-      delegate.adapter(APIGatewayV2HttpEvent.class);
-
-    } catch (Exception e) {
-
-      throw new IllegalStateException(
-          "Missing @Json.Import({ALBHttpEvent.class, APIGatewayV2HttpEvent.class, APIGatewayRestEvent.class})");
-    }
   }
 
   @Override

@@ -4,24 +4,24 @@ import java.util.Map;
 
 import com.amazonaws.services.lambda.runtime.Context;
 
-import io.avaje.sigma.AWSHttpHandler;
 import io.avaje.sigma.Routing;
+import io.avaje.sigma.Sigma;
 import io.avaje.sigma.aws.events.AWSHttpResponse;
 import io.avaje.sigma.aws.events.AWSRequest;
 import io.avaje.sigma.routes.SpiRoutes;
 
-class DSigmaHandler implements AWSHttpHandler {
+class DSigmaFunction implements Sigma.HttpFunction {
 
   private final SpiRoutes routes;
   private final ServiceManager manager;
 
-  public DSigmaHandler(SpiRoutes routes, ServiceManager manager) {
+  public DSigmaFunction(SpiRoutes routes, ServiceManager manager) {
     this.routes = routes;
     this.manager = manager;
   }
 
   @Override
-  public AWSHttpResponse handle(AWSRequest req, Context context) {
+  public AWSHttpResponse apply(AWSRequest req, Context context) {
 
     SigmaContext ctx;
 

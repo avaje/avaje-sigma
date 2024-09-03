@@ -3,11 +3,12 @@ package io.avaje.sigma.core;
 import java.util.Collection;
 import java.util.function.Consumer;
 
-import io.avaje.sigma.AWSHttpHandler;
 import io.avaje.sigma.HttpService;
 import io.avaje.sigma.Routing;
 import io.avaje.sigma.Sigma;
+import io.avaje.sigma.json.JacksonService;
 import io.avaje.sigma.json.JsonService;
+import io.avaje.sigma.json.JsonbService;
 import io.avaje.sigma.routes.RoutesBuilder;
 
 public final class DSigma implements Sigma {
@@ -47,8 +48,29 @@ public final class DSigma implements Sigma {
   }
 
   @Override
-  public AWSHttpHandler createAWSHandler() {
+  public Sigma.HttpFunction createHttpFunction() {
+
+    if (jsonService == null) jsonService = getJsonService();
+
     var routes = new RoutesBuilder(routing, this.ignoreTrailingSlashes).build();
-    return new DSigmaHandler(routes, new ServiceManager(this.jsonService));
+    return new DSigmaFunction(routes, new ServiceManager(this.jsonService));
+  }
+
+  private JsonService getJsonService() {
+
+    try {
+      Class.forName("io.avaje.Jsonb");
+      return new JsonbService();
+    } catch (ClassNotFoundException e) {
+      // nothing to do
+    }
+    try {
+      Class.forName("com.fasterxml.jackson.databind.ObjectMapper");
+      return new JacksonService();
+    } catch (ClassNotFoundException e) {
+      // nothing to do
+    }
+
+    throw new IllegalStateException("No JsonService Provided");
   }
 }

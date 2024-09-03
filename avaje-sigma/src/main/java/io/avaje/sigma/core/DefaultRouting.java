@@ -190,31 +190,5 @@ class DefaultRouting implements Routing {
     return exceptionHandlers;
   }
 
-  private static class Entry implements Routing.Entry {
-
-    private final HttpMethod type;
-    private final String path;
-    private final Handler handler;
-
-    Entry(HttpMethod type, String path, Handler handler) {
-      this.type = type;
-      this.path = path;
-      this.handler = handler;
-    }
-
-    @Override
-    public HttpMethod getType() {
-      return type;
-    }
-
-    @Override
-    public String getPath() {
-      return path;
-    }
-
-    @Override
-    public Handler getHandler() {
-      return handler;
-    }
-  }
+  private record Entry(HttpMethod type, String path, Handler handler) implements Routing.Entry {}
 }

@@ -3,6 +3,10 @@ package io.avaje.sigma;
 import java.util.Collection;
 import java.util.function.Consumer;
 
+import com.amazonaws.services.lambda.runtime.Context;
+
+import io.avaje.sigma.aws.events.AWSHttpResponse;
+import io.avaje.sigma.aws.events.AWSRequest;
 import io.avaje.sigma.core.DSigma;
 import io.avaje.sigma.json.JsonService;
 
@@ -10,11 +14,11 @@ import io.avaje.sigma.json.JsonService;
  * Create, configure and start Sigma.
  *
  * <pre>{@code
- * final AWSHttpHandler app = Sigma.create()
+ * final HttpFunction app = Sigma.create()
  *   .routing(routing -> routing
  *     .get("/", ctx -> ctx.text("hello world"))
  *     .get("/one", ctx -> ctx.text("one"))
- *   .createAWSHandler();
+ *   .createHttpFunction();
  *
  * }</pre>
  */
@@ -50,5 +54,9 @@ public interface Sigma {
   /** Set to true to ignore trailing slashes. Defaults to true. */
   Sigma ignoreTrailingSlashes(boolean ignoreTrailingSlashes);
 
-  AWSHttpHandler createAWSHandler();
+  HttpFunction createHttpFunction();
+
+  public interface HttpFunction {
+    <T extends AWSRequest> AWSHttpResponse apply(T request, Context ctx);
+  }
 }

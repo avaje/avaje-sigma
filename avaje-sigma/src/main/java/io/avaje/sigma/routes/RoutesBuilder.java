@@ -20,7 +20,7 @@ public class RoutesBuilder {
   this.exceptionHandlers=   routing.exceptionHandlers();
     this.ignoreTrailingSlashes = ignoreTrailingSlashes;
     for (Routing.Entry handler : routing.all()) {
-      switch (handler.getType()) {
+      switch (handler.type()) {
         case BEFORE:
           before.add(filter(handler));
           break;
@@ -28,7 +28,7 @@ public class RoutesBuilder {
           after.add(filter(handler));
           break;
         default:
-          typeMap.computeIfAbsent(handler.getType(), h -> new RouteIndex()).add(convert(handler));
+          typeMap.computeIfAbsent(handler.type(), h -> new RouteIndex()).add(convert(handler));
       }
     }
   }
@@ -38,8 +38,8 @@ public class RoutesBuilder {
   }
 
   private SpiRoutes.Entry convert(Routing.Entry handler) {
-    final PathParser pathParser = new PathParser(handler.getPath(), ignoreTrailingSlashes);
-    return new RouteEntry(pathParser, handler.getHandler());
+    final PathParser pathParser = new PathParser(handler.path(), ignoreTrailingSlashes);
+    return new RouteEntry(pathParser, handler.handler());
   }
 
   public SpiRoutes build() {
