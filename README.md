@@ -7,13 +7,13 @@ Provides javalin/jex style request handling for AWS lambda http requests.
 public class LambdaRequestHandler
     implements RequestHandler<APIGatewayV2HttpEvent, AWSHttpResponse> {
 
-  AWSHttpHandler handler =
+  HttpFunction handler =
       Sigma.create()
           .routing(
               r ->
                   r.get("/lambda", ctx -> ctx.text("Hello World"))
                    .get("/route2/{param}", ctx -> ctx.text(ctx.pathParam("param"))))
-          .createAWSHandler();
+          .createHttpFunction();
 
   @Override
   public AWSHttpResponse handleRequest(APIGatewayV2HttpEvent event, Context context) {
