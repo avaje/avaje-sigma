@@ -32,4 +32,5 @@ jobs:
         uses: actions-js/push@master
         with:
           message: "Google-Java-Format"
+          branch: "master"
           github_token: ${{ secrets.GITHUB_TOKEN }}
