@@ -1,14 +1,12 @@
 package io.avaje.sigma;
 
-import java.util.Collection;
-import java.util.function.Consumer;
-
 import com.amazonaws.services.lambda.runtime.Context;
-
 import io.avaje.sigma.aws.events.AWSHttpResponse;
 import io.avaje.sigma.aws.events.AWSRequest;
 import io.avaje.sigma.core.DSigma;
 import io.avaje.sigma.json.JsonService;
+import java.util.Collection;
+import java.util.function.Consumer;
 
 /**
  * Create, configure and start Sigma.

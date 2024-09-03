@@ -1,14 +1,12 @@
 package io.avaje.sigma.core;
 
-import java.util.Map;
-
 import com.amazonaws.services.lambda.runtime.Context;
-
 import io.avaje.sigma.Routing;
 import io.avaje.sigma.Sigma;
 import io.avaje.sigma.aws.events.AWSHttpResponse;
 import io.avaje.sigma.aws.events.AWSRequest;
 import io.avaje.sigma.routes.SpiRoutes;
+import java.util.Map;
 
 class DSigmaFunction implements Sigma.HttpFunction {
 

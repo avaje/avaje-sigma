@@ -2,16 +2,15 @@ package io.avaje.sigma;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import io.avaje.jsonb.Json;
+import io.avaje.jsonb.Jsonb;
+import io.avaje.sigma.aws.events.ALBHttpEvent;
 import java.util.Map;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
-import io.avaje.jsonb.Jsonb;
-import io.avaje.sigma.aws.events.ALBHttpEvent;
-
+@Json.Import(ALBHttpEvent.class)
 class ALBTest {
 
   private final Sigma sigma = Sigma.create();

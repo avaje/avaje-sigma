@@ -1,9 +1,8 @@
 package io.avaje.sigma.routes;
 
-import java.util.Map;
-
 import io.avaje.sigma.HttpContext;
 import io.avaje.sigma.Routing;
+import java.util.Map;
 
 /** Route matching and filter handling. */
 public interface SpiRoutes {

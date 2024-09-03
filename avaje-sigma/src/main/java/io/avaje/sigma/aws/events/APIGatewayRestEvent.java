@@ -1,9 +1,8 @@
 package io.avaje.sigma.aws.events;
 
+import io.avaje.sigma.Routing.HttpMethod;
 import java.util.List;
 import java.util.Map;
-
-import io.avaje.sigma.Routing.HttpMethod;
 
 public record APIGatewayRestEvent(
     String version,

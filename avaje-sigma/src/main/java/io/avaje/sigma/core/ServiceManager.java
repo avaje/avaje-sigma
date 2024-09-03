@@ -1,5 +1,6 @@
 package io.avaje.sigma.core;
 
+import io.avaje.sigma.json.JsonService;
 import java.io.UncheckedIOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -7,8 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import io.avaje.sigma.json.JsonService;
 
 /** Core implementation of SpiServiceManager provided to specific implementations like jetty etc. */
 class ServiceManager {

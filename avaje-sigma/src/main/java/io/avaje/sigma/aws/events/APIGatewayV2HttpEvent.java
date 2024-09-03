@@ -1,11 +1,10 @@
 package io.avaje.sigma.aws.events;
 
+import io.avaje.sigma.Routing.HttpMethod;
+import io.avaje.sigma.routes.UrlDecode;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import io.avaje.sigma.Routing.HttpMethod;
-import io.avaje.sigma.routes.UrlDecode;
 
 public record APIGatewayV2HttpEvent(
     String version,

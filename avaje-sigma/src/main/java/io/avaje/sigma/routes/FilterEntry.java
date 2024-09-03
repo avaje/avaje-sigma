@@ -1,10 +1,9 @@
 package io.avaje.sigma.routes;
 
-import java.util.Map;
-
 import io.avaje.sigma.Handler;
 import io.avaje.sigma.HttpContext;
 import io.avaje.sigma.Routing;
+import java.util.Map;
 
 /** Filter with special matchAll. */
 class FilterEntry implements SpiRoutes.Entry {

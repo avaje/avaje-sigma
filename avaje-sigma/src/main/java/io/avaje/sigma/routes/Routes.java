@@ -1,12 +1,11 @@
 package io.avaje.sigma.routes;
 
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-
 import io.avaje.sigma.ExceptionHandler;
 import io.avaje.sigma.HttpContext;
 import io.avaje.sigma.Routing;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 
 class Routes implements SpiRoutes {
 

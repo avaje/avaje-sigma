@@ -1,9 +1,8 @@
 package io.avaje.sigma.routes;
 
-import java.util.Map;
-
 import io.avaje.sigma.Handler;
 import io.avaje.sigma.HttpContext;
+import java.util.Map;
 
 class RouteEntry implements SpiRoutes.Entry {
 

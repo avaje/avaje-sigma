@@ -2,7 +2,6 @@ package io.avaje.sigma.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import io.avaje.jsonb.JsonIoException;
 
 public class JacksonService implements JsonService {

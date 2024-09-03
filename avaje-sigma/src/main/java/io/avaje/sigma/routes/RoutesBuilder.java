@@ -1,12 +1,11 @@
 package io.avaje.sigma.routes;
 
+import io.avaje.sigma.ExceptionHandler;
+import io.avaje.sigma.Routing;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-
-import io.avaje.sigma.ExceptionHandler;
-import io.avaje.sigma.Routing;
 
 public class RoutesBuilder {
 
