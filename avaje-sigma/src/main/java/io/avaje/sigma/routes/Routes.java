@@ -1,0 +1,82 @@
+package io.avaje.sigma.routes;
+
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+
+import io.avaje.sigma.ExceptionHandler;
+import io.avaje.sigma.HttpContext;
+import io.avaje.sigma.Routing;
+
+class Routes implements SpiRoutes {
+
+  /** The "real" handlers by http method. */
+  private final EnumMap<Routing.HttpMethod, RouteIndex> typeMap;
+
+  /** The before filters. */
+  private final List<Entry> before;
+
+  /** The after filters. */
+  private final List<Entry> after;
+
+  private final Map<Class<?>, ExceptionHandler<?>> exceptionHandlers;
+
+  Routes(
+      EnumMap<Routing.HttpMethod, RouteIndex> typeMap,
+      List<Entry> before,
+      List<Entry> after,
+      Map<Class<?>, ExceptionHandler<?>> exceptionHandlers) {
+    this.typeMap = typeMap;
+    this.before = before;
+    this.after = after;
+    this.exceptionHandlers = exceptionHandlers;
+  }
+
+  @Override
+  public Entry match(Routing.HttpMethod type, String pathInfo) {
+    return typeMap.get(type).match(pathInfo);
+  }
+
+  @Override
+  public void before(String pathInfo, HttpContext ctx) {
+    for (Entry beforeFilter : before) {
+      if (beforeFilter.matches(pathInfo)) {
+        beforeFilter.handle(ctx);
+      }
+    }
+  }
+
+  @Override
+  public void after(String pathInfo, HttpContext ctx) {
+    for (Entry afterFilter : after) {
+      if (afterFilter.matches(pathInfo)) {
+        afterFilter.handle(ctx);
+      }
+    }
+  }
+
+  @Override
+  public void handleException(HttpContext ctx, Exception e) {
+
+    var exHandler = find(e.getClass());
+    if (exHandler != null) {
+      exHandler.handle(e, ctx);
+    } else {
+      ctx.status(500)
+          .json("{\"error\":\"Failed to process request: %s\"}".formatted(e.getMessage()));
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  private <T extends Exception> ExceptionHandler<Exception> find(Class<T> exceptionType) {
+    Class<?> type = exceptionType;
+    do {
+      final ExceptionHandler<?> handler = exceptionHandlers.get(type);
+      if (handler != null) {
+        return (ExceptionHandler<Exception>) handler;
+      }
+      type = type.getSuperclass();
+    } while (type != null);
+    return null;
+  }
+}

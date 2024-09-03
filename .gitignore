@@ -1,0 +1,15 @@
+target/
+build/
+.idea/
+*.iml
+.gradle
+*.prefs
+*.class*
+*.factorypath
+*.project
+*.processors
+*/bin/
+
+inject-generator/avaje-inject
+inject-generator/avaje-inject-generator
+inject-generator/avaje-processors.txt
