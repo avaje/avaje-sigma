@@ -8,13 +8,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.avaje.jsonb.Jsonb;
 import io.avaje.sigma.aws.events.ALBHttpEvent;
 
-class SigmaTest {
+class ALBTest {
 
-  private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
   private final Sigma sigma = Sigma.create();
   private ALBHttpEvent albExample;
 
@@ -51,7 +50,7 @@ class SigmaTest {
           "isBase64Encoded": false
       }
                 """;
-    this.albExample = OBJECT_MAPPER.readValue(exampleEvent, ALBHttpEvent.class);
+    this.albExample = Jsonb.builder().build().type(ALBHttpEvent.class).fromJson(exampleEvent);
   }
 
   record Error(String msg) {}

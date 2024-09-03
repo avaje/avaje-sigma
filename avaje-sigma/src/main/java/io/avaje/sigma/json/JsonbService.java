@@ -1,7 +1,6 @@
 package io.avaje.sigma.json;
 
 import io.avaje.jsonb.Jsonb;
-import io.avaje.sigma.aws.events.APIGatewayV2HttpEvent;
 
 public class JsonbService implements JsonService {
 
