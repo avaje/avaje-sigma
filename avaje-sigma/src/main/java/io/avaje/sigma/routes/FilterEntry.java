@@ -6,9 +6,7 @@ import io.avaje.sigma.Handler;
 import io.avaje.sigma.HttpContext;
 import io.avaje.sigma.Routing;
 
-/**
- * Filter with special matchAll.
- */
+/** Filter with special matchAll. */
 class FilterEntry implements SpiRoutes.Entry {
 
   private final String path;

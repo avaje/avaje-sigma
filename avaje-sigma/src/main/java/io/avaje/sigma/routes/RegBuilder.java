@@ -4,9 +4,7 @@ import java.util.List;
 import java.util.StringJoiner;
 import java.util.regex.Pattern;
 
-/**
- * Helper for PathParser to build regex for the path.
- */
+/** Helper for PathParser to build regex for the path. */
 class RegBuilder {
   private final StringJoiner full = new StringJoiner("/");
   private final StringJoiner extract = new StringJoiner("/");
@@ -30,16 +28,12 @@ class RegBuilder {
     trailingSlash = true;
   }
 
-  /**
-   * Return the regex for path matching.
-   */
+  /** Return the regex for path matching. */
   Pattern matchRegex() {
     return Pattern.compile(wrap(full.toString()));
   }
 
-  /**
-   * Return the regex used to extract path parameters.
-   */
+  /** Return the regex used to extract path parameters. */
   Pattern extractRegex() {
     return Pattern.compile(wrap(extract.toString()));
   }
@@ -51,16 +45,12 @@ class RegBuilder {
     return "^/" + parts + "/?$";
   }
 
-  /**
-   * Return true if any of the segments consume unknown number of slashes.
-   */
+  /** Return true if any of the segments consume unknown number of slashes. */
   boolean multiSlash() {
     return multiSlash;
   }
 
-  /**
-   * Return true if all path segments are literal.
-   */
+  /** Return true if all path segments are literal. */
   boolean literal() {
     return literal;
   }

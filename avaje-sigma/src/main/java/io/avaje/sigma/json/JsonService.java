@@ -5,5 +5,4 @@ public interface JsonService {
   <T> T jsonRead(Class<T> clazz, String body);
 
   String jsonWrite(Object bean);
-
 }

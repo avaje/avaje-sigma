@@ -20,7 +20,7 @@ class SigmaContext implements HttpContext {
   protected final AWSRequest req;
   private final Context ctx;
   private final Map<String, String> pathParams;
-  private final Map<String, Object> attributes= new HashMap<>();
+  private final Map<String, Object> attributes = new HashMap<>();
   private final String matchedPath;
   private final boolean multiValue;
   private final Map<String, String> responseHeaders;
@@ -60,6 +60,7 @@ class SigmaContext implements HttpContext {
   public Context awsContext() {
     return ctx;
   }
+
   @Override
   public HttpContext attribute(String key, Object value) {
     attributes.put(key, value);
@@ -209,5 +210,4 @@ class SigmaContext implements HttpContext {
     return new AWSHttpResponse(
         status, responseHeaders, multiValueResponseHeaders, body, base64Encoded);
   }
-
 }

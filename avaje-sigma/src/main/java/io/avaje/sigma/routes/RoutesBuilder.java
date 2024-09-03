@@ -10,14 +10,15 @@ import io.avaje.sigma.Routing;
 
 public class RoutesBuilder {
 
-  private final EnumMap<Routing.HttpMethod, RouteIndex> typeMap = new EnumMap<>(Routing.HttpMethod.class);
+  private final EnumMap<Routing.HttpMethod, RouteIndex> typeMap =
+      new EnumMap<>(Routing.HttpMethod.class);
   private final List<SpiRoutes.Entry> before = new ArrayList<>();
   private final List<SpiRoutes.Entry> after = new ArrayList<>();
   private final boolean ignoreTrailingSlashes;
   private final Map<Class<?>, ExceptionHandler<?>> exceptionHandlers;
 
   public RoutesBuilder(Routing routing, boolean ignoreTrailingSlashes) {
-  this.exceptionHandlers=   routing.exceptionHandlers();
+    this.exceptionHandlers = routing.exceptionHandlers();
     this.ignoreTrailingSlashes = ignoreTrailingSlashes;
     for (Routing.Entry handler : routing.all()) {
       switch (handler.type()) {
