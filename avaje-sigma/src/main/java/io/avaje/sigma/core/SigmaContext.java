@@ -161,7 +161,7 @@ class SigmaContext implements HttpContext {
 
   @Override
   public HttpContext json(Object bean) {
-    contentType("application/pdf");
+    contentType("application/json");
     var content = mgr.jsonWrite(bean);
     return writeBody(content);
   }

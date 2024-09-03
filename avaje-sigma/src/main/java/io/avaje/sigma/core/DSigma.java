@@ -59,7 +59,7 @@ public final class DSigma implements Sigma {
   private JsonService getJsonService() {
 
     try {
-      Class.forName("io.avaje.Jsonb");
+      Class.forName("io.avaje.jsonb.Jsonb");
       return new JsonbService();
     } catch (ClassNotFoundException e) {
       // nothing to do

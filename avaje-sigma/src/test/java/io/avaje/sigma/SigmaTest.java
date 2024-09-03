@@ -2,24 +2,25 @@ package io.avaje.sigma;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Map;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.avaje.sigma.Sigma;
 import io.avaje.sigma.aws.events.ALBHttpEvent;
 
 class SigmaTest {
 
-  private Sigma sigma;
+  private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+  private final Sigma sigma = Sigma.create();
   private ALBHttpEvent albExample;
 
   @BeforeEach
   void setUpBeforeClass() throws JsonProcessingException {
 
-    this.sigma = Sigma.create();
     String exampleEvent =
         """
                 {
@@ -50,7 +51,32 @@ class SigmaTest {
           "isBase64Encoded": false
       }
                 """;
-    this.albExample = new ObjectMapper().readValue(exampleEvent, ALBHttpEvent.class);
+    this.albExample = OBJECT_MAPPER.readValue(exampleEvent, ALBHttpEvent.class);
+  }
+
+  record Error(String msg) {}
+
+  @Test
+  void testError() {
+    sigma.routing(
+        r ->
+            r.get(
+                    "/lambda/{pathParam}",
+                    ctx -> {
+                      throw new IllegalStateException();
+                    })
+                .exception(
+                    IllegalStateException.class,
+                    (e, ctx) -> {
+                      assertThat(e instanceof IllegalStateException).isTrue();
+
+                      ctx.json(Map.of("msg", "failed")).status(500);
+                    }));
+
+    var result = sigma.createHttpFunction().apply(albExample, null);
+    assertThat(result.statusCode()).isEqualTo(500);
+
+    assertThat(result.body()).isEqualTo("{\"msg\":\"failed\"}");
   }
 
   @Test
