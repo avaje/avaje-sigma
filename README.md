@@ -1,4 +1,4 @@
-# Avaje Sigma (Final Name TBD)
+# Avaje Sigma
 
 Provides javalin/jex style request handling for AWS lambda http requests.
 
