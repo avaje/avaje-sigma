@@ -129,18 +129,14 @@ public interface HttpContext {
     return val == null || val.isEmpty() ? null : val.get(0);
   }
 
-  /**
-   * Return the first form param value for the specified key or the default value.
-   */
+  /** Return the first form param value for the specified key or the default value. */
   default String formParam(String key, String defaultValue) {
     final var val = formParam(key);
     return val == null ? defaultValue : val;
   }
 
-  /**
-   * Return the form params for the specified key, or empty list.
-   */
-   List<String> formParams(String key);
+  /** Return the form params for the specified key, or empty list. */
+  List<String> formParams(String key);
 
   /**
    * Sets the status code of the response.
@@ -206,8 +202,8 @@ public interface HttpContext {
   List<String> headers(String name);
 
   /**
-   * Returns the value of the first header with the specified name, or the default value if
-   * not found.
+   * Returns the value of the first header with the specified name, or the default value if not
+   * found.
    *
    * @param name The name of the header.
    * @param defaultValue The default value to return if not found.
