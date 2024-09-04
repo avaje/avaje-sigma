@@ -1,8 +1,8 @@
-package io.avaje.sigma.json;
+package io.avaje.sigma.body;
 
 import io.avaje.jsonb.Jsonb;
 
-public class JsonbService implements JsonService {
+public class JsonbService implements BodyMapper {
 
   Jsonb delegate;
 
@@ -15,13 +15,13 @@ public class JsonbService implements JsonService {
   }
 
   @Override
-  public <T> T jsonRead(Class<T> clazz, String body) {
+  public <T> T readBody(Class<T> clazz, String body) {
 
     return delegate.type(clazz).fromJson(body);
   }
 
   @Override
-  public String jsonWrite(Object bean) {
+  public String writeBody(Object bean) {
     return delegate.toJson(bean);
   }
 }

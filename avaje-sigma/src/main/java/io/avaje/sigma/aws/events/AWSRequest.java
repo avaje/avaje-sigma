@@ -10,11 +10,11 @@ import java.util.Optional;
  * Represents an AWS request, providing a unified interface for accessing request data.
  *
  * <p>This sealed interface defines the common properties and methods for different types of AWS
- * requests, such as {@link APIGatewayRestEvent}, {@link APIGatewayV2HttpEvent}, and {@link
+ * requests, such as {@link APIGatewayProxyEvent}, {@link APIGatewayV2HttpEvent}, and {@link
  * ALBHttpEvent}.
  */
 public sealed interface AWSRequest
-    permits APIGatewayRestEvent, APIGatewayV2HttpEvent, ALBHttpEvent {
+    permits APIGatewayProxyEvent, APIGatewayV2HttpEvent, ALBHttpEvent {
 
   /**
    * Returns the request body as a string.

@@ -4,7 +4,7 @@ import io.avaje.sigma.Routing.HttpMethod;
 import java.util.List;
 import java.util.Map;
 
-public record APIGatewayRestEvent(
+public record APIGatewayProxyEvent(
     String version,
     String resource,
     String path,
@@ -17,7 +17,7 @@ public record APIGatewayRestEvent(
     Map<String, String> stageVariables,
     RequestContext requestContext,
     String body,
-    Boolean isBase64Encoded)
+    boolean isBase64Encoded)
     implements AWSRequest {
 
   public record RequestContext(

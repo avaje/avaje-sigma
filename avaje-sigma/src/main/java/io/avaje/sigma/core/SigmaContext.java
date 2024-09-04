@@ -21,10 +21,13 @@ class SigmaContext implements HttpContext {
   private final Map<String, Object> attributes = new HashMap<>();
   private final String matchedPath;
   private final boolean multiValue;
+  private final String reqContentType;
+
   private final Map<String, String> responseHeaders;
   private final Map<String, List<String>> multiValueResponseHeaders;
   private final Map<String, List<String>> formParams;
   private int status = 200;
+  private String contentType;
 
   private String body;
   private boolean base64Encoded;
@@ -47,9 +50,10 @@ class SigmaContext implements HttpContext {
     this.multiValue = req.hasMultiValueParams();
     multiValueResponseHeaders = multiValue ? new HashMap<>() : null;
     responseHeaders = !multiValue ? new HashMap<>() : null;
-
+    var content = contentType();
+    this.reqContentType = content != null ? content : "application/json";
     this.formParams =
-        "application/x-www-form-urlencoded".equals(contentType())
+        "application/x-www-form-urlencoded".equals(reqContentType)
             ? mgr.parseFormMap(req.body())
             : Map.of();
   }
@@ -84,7 +88,7 @@ class SigmaContext implements HttpContext {
 
   @Override
   public <T> T bodyAsClass(Class<T> clazz) {
-    return mgr.jsonRead(clazz, req.body());
+    return mgr.readBody(reqContentType, clazz, req.body());
   }
 
   @Override
@@ -138,6 +142,7 @@ class SigmaContext implements HttpContext {
   @Override
   public SigmaContext contentType(String contentType) {
 
+    this.contentType = contentType;
     responseHeader(CONTENT_TYPE, contentType);
     return this;
   }
@@ -178,35 +183,37 @@ class SigmaContext implements HttpContext {
   @Override
   public HttpContext json(Object bean) {
     contentType("application/json");
-    var content = mgr.jsonWrite(bean);
-    return writeBody(content);
+    return writeBody(bean);
   }
 
-  /** Write plain text content to the response. */
   @Override
   public HttpContext text(String content) {
     contentType("text/plain");
-    return writeBody(content);
+    return string(content);
   }
 
-  /** Write html content to the response. */
   @Override
   public HttpContext html(String content) {
     contentType("text/html");
-    return writeBody(content);
+    return string(content);
   }
 
   @Override
-  public HttpContext writeBody(String content) {
+  public HttpContext string(String content) {
     this.body = content;
+    return this;
+  }
+
+  @Override
+  public HttpContext writeBody(Object content) {
+    this.body = mgr.writeBody(contentType, content);
     return this;
   }
 
   @Override
   public HttpContext base64EncodedBody(String content) {
-    this.body = content;
     this.base64Encoded = true;
-    return this;
+    return string(content);
   }
 
   public void resetResponse() {

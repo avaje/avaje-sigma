@@ -1,29 +1,42 @@
 package io.avaje.sigma.core;
 
+import static java.util.stream.Collectors.toUnmodifiableMap;
+
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
-import io.avaje.sigma.json.JsonService;
+import io.avaje.sigma.body.BodyMapper;
 
 /** Core implementation of SpiServiceManager provided to specific implementations like jetty etc. */
 class ServiceManager {
 
-  private final JsonService jsonService;
+  private final Map<String, BodyMapper> mappers;
 
-  public ServiceManager(JsonService jsonService) {
-    this.jsonService = jsonService;
+  public ServiceManager(List<BodyMapper> bodyMappers) {
+    this.mappers =
+        bodyMappers.stream().collect(toUnmodifiableMap(BodyMapper::mediaType, Function.identity()));
   }
 
-  public <T> T jsonRead(Class<T> clazz, String ctx) {
-    return jsonService.jsonRead(clazz, ctx);
+  public <T> T readBody(String contentType, Class<T> clazz, String ctx) {
+    return getMapper(contentType).readBody(clazz, ctx);
   }
 
-  public String jsonWrite(Object bean) {
-    return jsonService.jsonWrite(bean);
+  public String writeBody(String contentType, Object bean) {
+    return getMapper(contentType).writeBody(bean);
+  }
+
+  BodyMapper getMapper(String contentType) {
+    var mapper = mappers.get(contentType);
+
+    if (mapper == null) {
+      throw new IllegalStateException("No mapper provided for " + contentType);
+    }
+    return mapper;
   }
 
   public Map<String, List<String>> parseFormMap(String body) {

@@ -1,10 +1,12 @@
-package io.avaje.sigma.json;
+package io.avaje.sigma.body;
+
+import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.avaje.jsonb.JsonIoException;
 
-public class JacksonService implements JsonService {
+public class JacksonService implements BodyMapper {
 
   ObjectMapper delegate;
 
@@ -17,7 +19,7 @@ public class JacksonService implements JsonService {
   }
 
   @Override
-  public <T> T jsonRead(Class<T> clazz, String body) {
+  public <T> T readBody(Class<T> clazz, String body) {
 
     try {
       return delegate.readValue(body, clazz);
@@ -27,7 +29,7 @@ public class JacksonService implements JsonService {
   }
 
   @Override
-  public String jsonWrite(Object bean) {
+  public String writeBody(Object bean) {
     try {
       return delegate.writeValueAsString(bean);
     } catch (JsonProcessingException e) {

@@ -1,19 +1,22 @@
 package io.avaje.sigma.core;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.function.Consumer;
+
 import io.avaje.sigma.HttpService;
 import io.avaje.sigma.Routing;
 import io.avaje.sigma.Sigma;
-import io.avaje.sigma.json.JacksonService;
-import io.avaje.sigma.json.JsonService;
-import io.avaje.sigma.json.JsonbService;
+import io.avaje.sigma.body.BodyMapper;
+import io.avaje.sigma.body.JacksonService;
+import io.avaje.sigma.body.JsonbService;
 import io.avaje.sigma.routes.RoutesBuilder;
-import java.util.Collection;
-import java.util.function.Consumer;
 
 public final class DSigma implements Sigma {
 
   private final Routing routing = new DefaultRouting();
-  private JsonService jsonService;
+  private final List<BodyMapper> bodyMappers= new ArrayList<>();
   private boolean ignoreTrailingSlashes = true;
 
   public Sigma routing(HttpService routes) {
@@ -34,8 +37,8 @@ public final class DSigma implements Sigma {
   }
 
   @Override
-  public Sigma jsonService(JsonService jsonService) {
-    this.jsonService = jsonService;
+  public Sigma addBodyMapper(BodyMapper mapper) {
+    this.bodyMappers.add(mapper);
     return this;
   }
 
@@ -49,13 +52,13 @@ public final class DSigma implements Sigma {
   @Override
   public Sigma.HttpFunction createHttpFunction() {
 
-    if (jsonService == null) jsonService = getJsonService();
+    if (bodyMappers.isEmpty()) bodyMappers.add(getJsonService());
 
     var routes = new RoutesBuilder(routing, this.ignoreTrailingSlashes).build();
-    return new DSigmaFunction(routes, new ServiceManager(this.jsonService));
+    return new DSigmaFunction(routes, new ServiceManager(bodyMappers));
   }
 
-  private JsonService getJsonService() {
+  private BodyMapper getJsonService() {
 
     try {
       Class.forName("io.avaje.jsonb.Jsonb");
@@ -70,6 +73,6 @@ public final class DSigma implements Sigma {
       // nothing to do
     }
 
-    throw new IllegalStateException("No JsonService Provided");
+    throw new IllegalStateException("No BodyMapper Provided");
   }
 }

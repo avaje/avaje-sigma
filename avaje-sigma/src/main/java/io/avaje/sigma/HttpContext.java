@@ -6,6 +6,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 
 import io.avaje.sigma.Routing.HttpMethod;
 import io.avaje.sigma.aws.events.AWSRequest;
+import io.avaje.sigma.body.BodyMapper;
 
 /** Provides access to functions for handling the request and response in a lambda invocation. */
 public interface HttpContext {
@@ -154,7 +155,7 @@ public interface HttpContext {
   int status();
 
   /**
-   * Writes plain text content to the response.
+   * Writes plain text content to the response. Sets content-type Header to text/plain
    *
    * @param content The plain text content to write.
    * @return The current HTTP context.
@@ -162,7 +163,7 @@ public interface HttpContext {
   HttpContext text(String content);
 
   /**
-   * Writes HTML content to the response.
+   * Writes HTML content to the response. Sets content-type Header to text/html
    *
    * @param content The HTML content to write.
    * @return The current HTTP context.
@@ -170,7 +171,7 @@ public interface HttpContext {
   HttpContext html(String content);
 
   /**
-   * Sets the response body as JSON for the given bean.
+   * Sets the response body as JSON for the given bean. Sets content-type Header to application/json
    *
    * @param bean The bean to serialize as JSON.
    * @return The current HTTP context.
@@ -178,12 +179,21 @@ public interface HttpContext {
   HttpContext json(Object bean);
 
   /**
-   * Writes raw content to the response body.
+   * Writes raw string content to the response body.
    *
    * @param content The raw content to write.
    * @return The current HTTP context.
    */
-  HttpContext writeBody(String content);
+  HttpContext string(String content);
+
+  /**
+   * Writes object to the response. Depending on the content type, a {@link BodyMapper} will be used
+   * to serialize to a string
+   *
+   * @param content The raw content to write.
+   * @return The current HTTP context.
+   */
+  HttpContext writeBody(Object bean);
 
   /**
    * Returns the value of the specified request header.

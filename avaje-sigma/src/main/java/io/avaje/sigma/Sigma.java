@@ -3,8 +3,9 @@ package io.avaje.sigma;
 import com.amazonaws.services.lambda.runtime.Context;
 import io.avaje.sigma.aws.events.AWSHttpResponse;
 import io.avaje.sigma.aws.events.AWSRequest;
+import io.avaje.sigma.body.BodyMapper;
 import io.avaje.sigma.core.DSigma;
-import io.avaje.sigma.json.JsonService;
+
 import java.util.Collection;
 import java.util.function.Consumer;
 
@@ -46,8 +47,8 @@ public interface Sigma {
   /** Add many routes and handlers to the routing. */
   Sigma routing(Collection<HttpService> routes);
 
-  /** Set the JsonService. */
-  Sigma jsonService(JsonService jsonService);
+  /** Set the BodyMapper. */
+  Sigma addBodyMapper(BodyMapper jsonService);
 
   /** Set to true to ignore trailing slashes. Defaults to true. */
   Sigma ignoreTrailingSlashes(boolean ignoreTrailingSlashes);

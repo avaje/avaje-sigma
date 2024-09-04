@@ -1,7 +1,7 @@
 module io.avaje.sigma {
   exports io.avaje.sigma;
   exports io.avaje.sigma.aws.events;
-  exports io.avaje.sigma.json;
+  exports io.avaje.sigma.body;
 
   requires static com.fasterxml.jackson.databind;
   requires static io.avaje.jsonb;
