@@ -1,11 +1,19 @@
 package io.avaje.sigma;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+
 import io.avaje.jsonb.Json;
 import io.avaje.jsonb.Jsonb;
+import io.avaje.sigma.Routing.HttpMethod;
 import io.avaje.sigma.aws.events.ALBHttpEvent;
+import io.avaje.sigma.json.JacksonService;
+
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,17 +41,7 @@ class ALBTest {
         "query": "1234ABCD"
     },
     "headers": {
-        "accept": "text/html",
-        "accept-encoding": "gzip",
-        "accept-language": "en-US",
-        "connection": "keep-alive",
-        "host": "lambda-alb-123578498.us-east-1.elb.amazonaws.com",
-        "upgrade-insecure-requests": "1",
-        "x-amzn-trace-id": "Root=1-5c536348-3d683b8b04734faae651f476",
-        "x-forwarded-for": "72.12.164.125",
-        "x-forwarded-port": "80",
-        "x-forwarded-proto": "http",
-        "x-imforwards": "20"
+        "header": "headon"
     },
     "body": "",
     "isBase64Encoded": false
@@ -52,14 +50,12 @@ class ALBTest {
     this.albExample = Jsonb.builder().build().type(ALBHttpEvent.class).fromJson(exampleEvent);
   }
 
-  record Error(String msg) {}
-
   @Test
   void testError() {
     sigma.routing(
         r ->
             r.get(
-                    "/lambda/{pathParam}",
+                    "/lambda/<pathParam>",
                     ctx -> {
                       throw new IllegalStateException();
                     })
@@ -81,17 +77,104 @@ class ALBTest {
   void test() {
     sigma.routing(
         r ->
-            r.get(
+            r.before(ctx -> ctx.attribute("before", "attribute"))
+                .get(
                     "/lambda/{pathParam}",
                     ctx -> {
                       assertThat(ctx.awsRequest() instanceof ALBHttpEvent).isTrue();
-                      assertThat("1234".equals(ctx.pathParam("pathParam"))).isTrue();
-                      assertThat("1234ABCD".equals(ctx.queryParam("query"))).isTrue();
-
+                      assertThat(ctx.pathParam("pathParam")).isEqualTo("1234");
+                      assertThat(ctx.queryParam("query")).isEqualTo("1234ABCD");
+                      assertThat(ctx.header("header")).isEqualTo("headon");
+                      assertThat("attribute").isEqualTo(ctx.attribute("before"));
+                      assertThat(ctx.body()).isBlank();
+                      ctx.attribute("req", "req");
                       ctx.text("hello world");
                     })
-                .before(ctx -> ctx.attribute("before", "attribute")));
+                .after(
+                    ctx -> {
+                      assertThat("attribute").isEqualTo(ctx.attribute("before"));
+                      assertThat("req").isEqualTo(ctx.attribute("req"));
+                      assertThat("hello world").isEqualTo(ctx.responseBody());
+                    }));
 
-    sigma.createHttpFunction().apply(albExample, null);
+    var result = sigma.createHttpFunction().apply(albExample, null);
+    assertThat(result.statusCode()).isEqualTo(200);
+    assertThat(result.body()).isEqualTo("hello world");
+  }
+
+  @Test
+  void test404() {
+    sigma.routing(
+        r ->
+            r.before("/", ctx -> fail(""))
+                .get("/lambda/404/{pathParam}", null)
+                .after("/", ctx -> fail("")));
+    var result = sigma.createHttpFunction().apply(albExample, null);
+    assertThat(result.statusCode()).isEqualTo(404);
+    assertThat(result.body()).contains("No route matching: /lambda/1234");
+  }
+
+  @Json
+  public record Body(String str) {}
+
+  @Test
+  void testPost() {
+    sigma.routing(
+        r ->
+            r.before("/", ctx -> fail(""))
+                .post(
+                    "/lambda/post/",
+                    ctx -> {
+                      assertThat(ctx.bodyAsClass(Body.class)).isInstanceOf(Body.class);
+                      ctx.html("pretend html");
+                    }));
+    var result =
+        sigma
+            .createHttpFunction()
+            .apply(
+                new ALBHttpEvent(
+                    null,
+                    HttpMethod.POST,
+                    "/lambda/post/",
+                    null,
+                    null,
+                    null,
+                    null,
+                    "{\"str\":\"what the sigma?\"}",
+                    false),
+                null);
+    assertThat(result.statusCode()).isEqualTo(200);
+    assertThat(result.body()).contains("pretend html");
+  }
+
+  @Test
+  void testMultiValue() {
+    sigma.routing(
+        r ->
+            r.patch(
+                "/lambda/patch/",
+                ctx -> {
+                  assertThat(ctx.queryParams("params")).hasSize(2);
+                  assertThat(ctx.headers("headers")).hasSize(2);
+                  ctx.base64EncodedBody("pretend 64");
+                  ctx.responseHeader("response", "response");
+                }));
+    var result =
+        sigma
+            .createHttpFunction()
+            .apply(
+                new ALBHttpEvent(
+                    null,
+                    HttpMethod.PATCH,
+                    "/lambda/patch/",
+                    null,
+                    Map.of("params", List.of("1", "2")),
+                    null,
+                    Map.of("headers", List.of("1", "2")),
+                    null,
+                    false),
+                null);
+    assertThat(result.statusCode()).isEqualTo(200);
+    assertThat(result.multiValueHeaders()).isNotNull();
   }
 }

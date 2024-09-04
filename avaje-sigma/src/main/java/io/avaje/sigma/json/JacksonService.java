@@ -13,7 +13,7 @@ public class JacksonService implements JsonService {
   }
 
   public JacksonService() {
-    this.delegate = new ObjectMapper();
+    this(new ObjectMapper());
   }
 
   @Override

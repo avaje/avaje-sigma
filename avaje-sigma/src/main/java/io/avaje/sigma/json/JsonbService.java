@@ -11,7 +11,7 @@ public class JsonbService implements JsonService {
   }
 
   public JsonbService() {
-    this.delegate = Jsonb.builder().build();
+    this(Jsonb.builder().build());
   }
 
   @Override

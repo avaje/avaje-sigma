@@ -33,7 +33,12 @@ class Routes implements SpiRoutes {
 
   @Override
   public Entry match(Routing.HttpMethod type, String pathInfo) {
-    return typeMap.get(type).match(pathInfo);
+
+    final var routeIndex = typeMap.get(type);
+
+    if (routeIndex == null) return null;
+
+    return routeIndex.match(pathInfo);
   }
 
   @Override

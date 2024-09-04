@@ -32,26 +32,25 @@ public record APIGatewayV2HttpEvent(
       long timeEpoch,
       Http http,
       Authorizer authorizer,
-      String requestId) {
+      String requestId) {}
 
-    public record Authorizer(JWT jwt, Map<String, Object> lambda, IAM iam) {}
+  public record Authorizer(JWT jwt, Map<String, Object> lambda, IAM iam) {}
 
-    public record JWT(Map<String, String> claims, List<String> scopes) {}
+  public record JWT(Map<String, String> claims, List<String> scopes) {}
 
-    public record Http(
-        HttpMethod method, String path, String protocol, String sourceIp, String userAgent) {}
+  public record Http(
+      HttpMethod method, String path, String protocol, String sourceIp, String userAgent) {}
 
-    public record IAM(
-        String accessKey,
-        String accountId,
-        String callerId,
-        CognitoIdentity cognitoIdentity,
-        String principalOrgId,
-        String userArn,
-        String userId) {}
+  public record IAM(
+      String accessKey,
+      String accountId,
+      String callerId,
+      CognitoIdentity cognitoIdentity,
+      String principalOrgId,
+      String userArn,
+      String userId) {}
 
-    public record CognitoIdentity(List<String> amr, String identityId, String identityPoolId) {}
-  }
+  public record CognitoIdentity(List<String> amr, String identityId, String identityPoolId) {}
 
   @Override
   public List<String> queryParams(String name) {

@@ -5,6 +5,8 @@ import java.nio.charset.StandardCharsets;
 
 public class UrlDecode {
 
+  private UrlDecode() {}
+
   public static String decode(String s) {
     return URLDecoder.decode(s.replace("+", "%2B"), StandardCharsets.UTF_8).replace("%2B", "+");
   }

@@ -1,10 +1,11 @@
 package io.avaje.sigma;
 
+import java.util.List;
+
 import com.amazonaws.services.lambda.runtime.Context;
+
 import io.avaje.sigma.Routing.HttpMethod;
 import io.avaje.sigma.aws.events.AWSRequest;
-import java.util.List;
-import java.util.Map;
 
 /** Provides access to functions for handling the request and response in a lambda invocation. */
 public interface HttpContext {
@@ -64,6 +65,13 @@ public interface HttpContext {
   String body();
 
   /**
+   * Returns the response body as a string.
+   *
+   * @return The response body as a string.
+   */
+  String responseBody();
+
+  /**
    * Returns the content type of the request.
    *
    * @return The content type of the request.
@@ -77,13 +85,6 @@ public interface HttpContext {
    * @return The current HTTP context.
    */
   HttpContext contentType(String contentType);
-
-  /**
-   * Returns a map of all path parameters.
-   *
-   * @return A map of all path parameters.
-   */
-  Map<String, String> pathParamMap();
 
   /**
    * Returns the value of the specified path parameter.
@@ -121,6 +122,25 @@ public interface HttpContext {
    * @return A list of all query parameters with the specified name.
    */
   List<String> queryParams(String name);
+
+  /** Return the first form param value for the specified key or null. */
+  default String formParam(String key) {
+    var val = formParams(key);
+    return val == null || val.isEmpty() ? null : val.get(0);
+  }
+
+  /**
+   * Return the first form param value for the specified key or the default value.
+   */
+  default String formParam(String key, String defaultValue) {
+    final var val = formParam(key);
+    return val == null ? defaultValue : val;
+  }
+
+  /**
+   * Return the form params for the specified key, or empty list.
+   */
+   List<String> formParams(String key);
 
   /**
    * Sets the status code of the response.
@@ -178,13 +198,34 @@ public interface HttpContext {
   String header(String key);
 
   /**
+   * Returns a list of all headers values with the specified name.
+   *
+   * @param name The name of the headers.
+   * @return A list of all header values with the specified name.
+   */
+  List<String> headers(String name);
+
+  /**
+   * Returns the value of the first header with the specified name, or the default value if
+   * not found.
+   *
+   * @param name The name of the header.
+   * @param defaultValue The default value to return if not found.
+   * @return The value of the first header, or the default value.
+   */
+  default String header(String name, String defaultValue) {
+    String val = header(name);
+    return val != null ? val : defaultValue;
+  }
+
+  /**
    * Sets the value of the specified response header.
    *
    * @param key The name of the response header.
    * @param value The value of the response header.
    * @return The current HTTP context.
    */
-  HttpContext header(String key, String value);
+  HttpContext responseHeader(String key, String value);
 
   /**
    * Returns the HTTP method of the request.

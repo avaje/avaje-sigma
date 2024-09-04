@@ -23,6 +23,7 @@ class SigmaContext implements HttpContext {
   private final boolean multiValue;
   private final Map<String, String> responseHeaders;
   private final Map<String, List<String>> multiValueResponseHeaders;
+  private final Map<String, List<String>> formParams;
   private int status = 200;
 
   private String body;
@@ -46,6 +47,11 @@ class SigmaContext implements HttpContext {
     this.multiValue = req.hasMultiValueParams();
     multiValueResponseHeaders = multiValue ? new HashMap<>() : null;
     responseHeaders = !multiValue ? new HashMap<>() : null;
+
+    this.formParams =
+        "application/x-www-form-urlencoded".equals(contentType())
+            ? mgr.parseFormMap(req.body())
+            : Map.of();
   }
 
   @Override
@@ -78,7 +84,7 @@ class SigmaContext implements HttpContext {
 
   @Override
   public <T> T bodyAsClass(Class<T> clazz) {
-    return mgr.jsonRead(clazz, this.body);
+    return mgr.jsonRead(clazz, req.body());
   }
 
   @Override
@@ -87,8 +93,8 @@ class SigmaContext implements HttpContext {
   }
 
   @Override
-  public Map<String, String> pathParamMap() {
-    return pathParams;
+  public String responseBody() {
+    return body;
   }
 
   @Override
@@ -105,6 +111,12 @@ class SigmaContext implements HttpContext {
   public List<String> queryParams(String name) {
 
     return req.queryParams(name);
+  }
+
+  @Override
+  public List<String> formParams(String name) {
+
+    return formParams.get(name);
   }
 
   @Override
@@ -126,7 +138,7 @@ class SigmaContext implements HttpContext {
   @Override
   public SigmaContext contentType(String contentType) {
 
-    header(CONTENT_TYPE, contentType);
+    responseHeader(CONTENT_TYPE, contentType);
     return this;
   }
 
@@ -136,7 +148,12 @@ class SigmaContext implements HttpContext {
   }
 
   @Override
-  public SigmaContext header(String key, String value) {
+  public List<String> headers(String key) {
+    return req.headers(key);
+  }
+
+  @Override
+  public SigmaContext responseHeader(String key, String value) {
     if (multiValue) {
 
       multiValueResponseHeaders.computeIfAbsent(key, k -> new ArrayList<>()).add(value);
