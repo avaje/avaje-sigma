@@ -16,7 +16,7 @@ import io.avaje.sigma.routes.RoutesBuilder;
 public final class DSigma implements Sigma {
 
   private final Routing routing = new DefaultRouting();
-  private final List<BodyMapper> bodyMappers= new ArrayList<>();
+  private final List<BodyMapper> bodyMappers = new ArrayList<>();
   private boolean ignoreTrailingSlashes = true;
 
   public Sigma routing(HttpService routes) {

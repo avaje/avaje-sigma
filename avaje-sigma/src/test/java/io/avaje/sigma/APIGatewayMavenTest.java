@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.fail;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 
 import io.avaje.jsonb.Json;
 import io.avaje.sigma.Routing.HttpMethod;
@@ -90,21 +89,20 @@ public class APIGatewayMavenTest {
   void test() {
     sigma.routing(
         r ->
-            r
-                .put(
-                    "/my/path",
-                    ctx -> {
-                      assertThat(ctx.queryParams("parameter1")).hasSize(2);
-                      assertThat(ctx.queryParam("parameter2")).isEqualTo("value");
-                      assertThat(ctx.queryParam("null")).isNull();
-                      assertThat(ctx.header("null")).isNull();
-                      assertThat(ctx.header("header1")).isEqualTo("value1");
-                      assertThat(ctx.headers("header2")).hasSize(2);
-                      assertThat(ctx.body()).isEqualTo("Hello from Lambda");
-                      assertThat(ctx.method()).isNotNull();
-                      assertThat(ctx.matchedPath()).isNotNull();
-                      ctx.text("hello world");
-                    }));
+            r.put(
+                "/my/path",
+                ctx -> {
+                  assertThat(ctx.queryParams("parameter1")).hasSize(2);
+                  assertThat(ctx.queryParam("parameter2")).isEqualTo("value");
+                  assertThat(ctx.queryParam("null")).isNull();
+                  assertThat(ctx.header("null")).isNull();
+                  assertThat(ctx.header("header1")).isEqualTo("value1");
+                  assertThat(ctx.headers("header2")).hasSize(2);
+                  assertThat(ctx.body()).isEqualTo("Hello from Lambda");
+                  assertThat(ctx.method()).isNotNull();
+                  assertThat(ctx.matchedPath()).isNotNull();
+                  ctx.text("hello world");
+                }));
 
     var result = sigma.createHttpFunction().apply(albExample, null);
     assertThat(result.statusCode()).isEqualTo(200);
