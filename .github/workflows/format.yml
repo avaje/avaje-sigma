@@ -13,24 +13,8 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: 17
-          distribution: 'zulu'
-      - name: Maven cache
-        uses: actions/cache@v4
-        env:
-          cache-name: maven-cache
+          distribution: 'zulu'    
+      - name: Format Code
+      - uses: axel-op/googlejavaformat-action@v3
         with:
-          path:
-            ~/.m2
-          key: build-${{ env.cache-name }}
-      - name: Run Formatter
-        run: mvn com.spotify.fmt:fmt-maven-plugin:format -DskipTestSourceDirectory=true -DskipSortingImports=true
-      - name: Check for modified files
-        id: git-check
-        run: echo "modified=$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)" >> $GITHUB_OUTPUT
-      - name:  Commit & Push changes
-        if: steps.git-check.outputs.modified == 'true'
-        uses: actions-js/push@master
-        with:
-          message: "Google-Java-Format"
-          branch: "master"
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          args: "--skip-sorting-imports --replace"
