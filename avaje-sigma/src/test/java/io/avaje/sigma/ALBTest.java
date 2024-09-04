@@ -16,7 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 @Json.Import(ALBHttpEvent.class)
-class ALBTest {
+public class ALBTest {
 
   private final Sigma sigma = Sigma.create();
   private ALBHttpEvent albExample;
