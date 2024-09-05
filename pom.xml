@@ -8,7 +8,7 @@
     <version>4.4</version>
   </parent>
 	<groupId>io.avaje</groupId>
-  <artifactId>avaje-sigma-parent</artifactId>
+	<artifactId>avaje-sigma-parent</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>avaje-sigma</name>
@@ -22,7 +22,7 @@
   </properties>
 
   <modules>
-		<module>avaje-sigma</module>
+    <module>avaje-sigma</module>
   </modules>
   
 </project>
