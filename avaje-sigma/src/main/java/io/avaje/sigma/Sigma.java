@@ -37,7 +37,7 @@ public interface Sigma {
    *
    * }</pre>
    *
-   *  @return default Sigma instance to configure
+   * @return default Sigma instance to configure
    */
   static Sigma create() {
     return new DSigma();

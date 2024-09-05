@@ -10,12 +10,10 @@ public interface SpiRoutes {
   /** Find the matching handler entry given the type and request URI. */
   Entry match(Router.HttpMethod type, String pathInfo);
 
-  /** Execute all appropriate before filters for the given request URI.
-    */
+  /** Execute all appropriate before filters for the given request URI. */
   void before(String pathInfo, HttpContext ctx) throws Exception;
 
-  /** Execute all appropriate after filters for the given request URI.
- */
+  /** Execute all appropriate after filters for the given request URI. */
   void after(String pathInfo, HttpContext ctx) throws Exception;
 
   void handleException(HttpContext ctx, Exception e);
@@ -26,10 +24,7 @@ public interface SpiRoutes {
     /** Return true if it matches the request URI. */
     boolean matches(String requestUri);
 
-    /**
-     * Handle the request.
-     *
-     */
+    /** Handle the request. */
     void handle(HttpContext ctx) throws Exception;
 
     /** Return the path parameter map given the uri. */
