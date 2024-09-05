@@ -96,7 +96,7 @@ public class ALBTest {
                     ctx -> {
                       assertThat("attribute").isEqualTo(ctx.attribute("before"));
                       assertThat("req").isEqualTo(ctx.attribute("req"));
-                      assertThat("hello world").isEqualTo(ctx.responseBody());
+                      assertThat("hello world").isEqualTo(ctx.result());
                     }));
 
     var result = sigma.createHttpFunction().apply(albExample, null);
@@ -158,7 +158,7 @@ public class ALBTest {
                 ctx -> {
                   assertThat(ctx.queryParams("params")).hasSize(2);
                   assertThat(ctx.headers("headers")).hasSize(2);
-                  ctx.base64EncodedBody("pretend 64");
+                  ctx.base64EncodedResult("pretend 64");
                   ctx.responseHeader("response", "response");
                 }));
     var result =

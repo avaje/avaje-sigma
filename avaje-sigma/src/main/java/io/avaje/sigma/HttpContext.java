@@ -65,12 +65,7 @@ public interface HttpContext {
    */
   String body();
 
-  /**
-   * Returns the response body as a string.
-   *
-   * @return The response body as a string.
-   */
-  String responseBody();
+
 
   /**
    * Returns the content type of the request.
@@ -162,19 +157,30 @@ public interface HttpContext {
   /**
    * Writes raw string content to the response body.
    *
+   * Will overwrite the current result if there is one.
+   *
    * @param content The raw content to write.
    * @return The current HTTP context.
    */
-  HttpContext string(String content);
+  HttpContext result(String content);
 
   /**
    * Writes object to the response. Depending on the content type, a {@link BodyMapper} will be used
-   * to serialize to a string
+   * to serialize to a string.
+   *
+   * Will overwrite the current result if there is one.
    *
    * @param content The raw content to write.
    * @return The current HTTP context.
    */
   HttpContext result(Object bean);
+
+  /**
+   * Returns the response body as a string.
+   *
+   * @return The response body as a string.
+   */
+  String result();
 
   /**
    * Returns the value of the specified request header.
@@ -221,5 +227,5 @@ public interface HttpContext {
    * @param content The base64-encoded content.
    * @return The current HTTP context.
    */
-  HttpContext base64EncodedBody(String content);
+  HttpContext base64EncodedResult(String content);
 }

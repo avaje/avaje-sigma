@@ -97,7 +97,7 @@ class SigmaContext implements HttpContext {
   }
 
   @Override
-  public String responseBody() {
+  public String result() {
     return body;
   }
 
@@ -189,17 +189,17 @@ class SigmaContext implements HttpContext {
   @Override
   public HttpContext text(String content) {
     contentType("text/plain");
-    return string(content);
+    return result(content);
   }
 
   @Override
   public HttpContext html(String content) {
     contentType("text/html");
-    return string(content);
+    return result(content);
   }
 
   @Override
-  public HttpContext string(String content) {
+  public HttpContext result(String content) {
     this.body = content;
     return this;
   }
@@ -211,9 +211,9 @@ class SigmaContext implements HttpContext {
   }
 
   @Override
-  public HttpContext base64EncodedBody(String content) {
+  public HttpContext base64EncodedResult(String content) {
     this.base64Encoded = true;
-    return string(content);
+    return result(content);
   }
 
   public void resetResponse() {
