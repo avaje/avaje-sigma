@@ -104,19 +104,6 @@ public interface HttpContext {
   String queryParam(String name);
 
   /**
-   * Returns the value of the first query parameter with the specified name, or the default value if
-   * not found.
-   *
-   * @param name The name of the query parameter.
-   * @param defaultValue The default value to return if not found.
-   * @return The value of the first query parameter, or the default value.
-   */
-  default String queryParam(String name, String defaultValue) {
-    String val = queryParam(name);
-    return val != null ? val : defaultValue;
-  }
-
-  /**
    * Returns a list of all query parameters with the specified name.
    *
    * @param name The name of the query parameter.
@@ -128,12 +115,6 @@ public interface HttpContext {
   default String formParam(String key) {
     var val = formParams(key);
     return val == null || val.isEmpty() ? null : val.get(0);
-  }
-
-  /** Return the first form param value for the specified key or the default value. */
-  default String formParam(String key, String defaultValue) {
-    final var val = formParam(key);
-    return val == null ? defaultValue : val;
   }
 
   /** Return the form params for the specified key, or empty list. */
@@ -210,19 +191,6 @@ public interface HttpContext {
    * @return A list of all header values with the specified name.
    */
   List<String> headers(String name);
-
-  /**
-   * Returns the value of the first header with the specified name, or the default value if not
-   * found.
-   *
-   * @param name The name of the header.
-   * @param defaultValue The default value to return if not found.
-   * @return The value of the first header, or the default value.
-   */
-  default String header(String name, String defaultValue) {
-    String val = header(name);
-    return val != null ? val : defaultValue;
-  }
 
   /**
    * Sets the value of the specified response header.

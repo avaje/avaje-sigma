@@ -85,8 +85,8 @@ public class ALBTest {
                     ctx -> {
                       assertThat(ctx.awsRequest() instanceof ALBHttpEvent).isTrue();
                       assertThat(ctx.pathParam("pathParam")).isEqualTo("1234");
-                      assertThat(ctx.queryParam("query", null)).isEqualTo("1234ABCD");
-                      assertThat(ctx.header("header", null)).isEqualTo("headon");
+                      assertThat(ctx.queryParam("query")).isEqualTo("1234ABCD");
+                      assertThat(ctx.header("header")).isEqualTo("headon");
                       assertThat("attribute").isEqualTo(ctx.attribute("before"));
                       assertThat(ctx.body()).isBlank();
                       ctx.attribute("req", "req");

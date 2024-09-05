@@ -100,7 +100,7 @@ public class APIGatewayProxyTest {
                   assertThat(ctx.header("null")).isNull();
                   assertThat(ctx.header("header1")).isEqualTo("value1");
                   assertThat(ctx.headers("header2")).hasSize(2);
-                  assertThat(ctx.formParam("emailId", null)).isEqualTo("abc@example.com");
+                  assertThat(ctx.formParam("emailId")).isEqualTo("abc@example.com");
                   assertThat(ctx.formParams("comments")).hasSize(2);
 
                   ctx.text("hello world");
