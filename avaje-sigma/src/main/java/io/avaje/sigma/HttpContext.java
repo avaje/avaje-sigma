@@ -174,7 +174,7 @@ public interface HttpContext {
    * @param content The raw content to write.
    * @return The current HTTP context.
    */
-  HttpContext writeBody(Object bean);
+  HttpContext result(Object bean);
 
   /**
    * Returns the value of the specified request header.

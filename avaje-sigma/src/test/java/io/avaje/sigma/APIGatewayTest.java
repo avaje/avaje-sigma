@@ -113,7 +113,7 @@ public class APIGatewayTest {
             r.put(
                 "/my/path",
                 ctx -> {
-                  ctx.contentType("fake").writeBody(r);
+                  ctx.contentType("fake").result(r);
                 }));
     var result = sigma.createHttpFunction().apply(albExample, null);
     assertThat(result.statusCode()).isEqualTo(500);
