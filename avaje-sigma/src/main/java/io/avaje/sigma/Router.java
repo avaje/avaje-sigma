@@ -4,49 +4,49 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public interface Routing {
+public interface Router {
 
-  /** Add the routes provided by the Routing Service. */
-  Routing add(HttpService routes);
+  /** Add the routes provided by the Router Service. */
+  Router add(HttpService routes);
 
-  /** Add all the routes provided by the Routing Services. */
-  Routing addAll(Collection<HttpService> routes);
+  /** Add all the routes provided by the Router Services. */
+  Router addAll(Collection<HttpService> routes);
 
   /** Add a HEAD handler. */
-  Routing head(String path, Handler handler);
+  Router head(String path, Handler handler);
 
   /** Add a GET handler. */
-  Routing get(String path, Handler handler);
+  Router get(String path, Handler handler);
 
   /** Add a POST handler. */
-  Routing post(String path, Handler handler);
+  Router post(String path, Handler handler);
 
   /** Add a PUT handler. */
-  Routing put(String path, Handler handler);
+  Router put(String path, Handler handler);
 
   /** Add a PATCH handler. */
-  Routing patch(String path, Handler handler);
+  Router patch(String path, Handler handler);
 
   /** Add a DELETE handler. */
-  Routing delete(String path, Handler handler);
+  Router delete(String path, Handler handler);
 
   /** Add a TRACE handler. */
-  Routing trace(String path, Handler handler);
+  Router trace(String path, Handler handler);
 
   /** Add a before filter for the given path. */
-  Routing before(String path, Handler handler);
+  Router before(String path, Handler handler);
 
   /** Add a before filter for all requests. */
-  Routing before(Handler handler);
+  Router before(Handler handler);
 
   /** Add a after filter for the given path. */
-  Routing after(String path, Handler handler);
+  Router after(String path, Handler handler);
 
   /** Add an after filter for all requests. */
-  Routing after(Handler handler);
+  Router after(Handler handler);
 
   /** Register an exception handler for the given exception type. */
-  <T extends Exception> Routing exception(Class<T> exceptionClass, ExceptionHandler<T> handler);
+  <T extends Exception> Router exception(Class<T> exceptionClass, ExceptionHandler<T> handler);
 
   /** Return all the registered handlers. */
   List<Entry> all();

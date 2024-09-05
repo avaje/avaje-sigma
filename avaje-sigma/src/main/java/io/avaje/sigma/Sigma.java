@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.function.Consumer;
 
 /**
- * Create, configure and start Sigma.
+ * Configures and creates an {@link HttpFunction} for serving AWS Lambda requests.
  *
  * <pre>{@code
  * final HttpFunction app = Sigma.create()
@@ -24,7 +24,7 @@ import java.util.function.Consumer;
 public interface Sigma {
 
   /**
-   * Create Sigma.
+   * Create a Sigma instance used to create a function for AWS request Handler.
    *
    * <pre>{@code
    * final AWSHttpHandler app = Sigma.create()
@@ -36,23 +36,26 @@ public interface Sigma {
    * app.shutdown();
    *
    * }</pre>
+   *
+   *  @return default Sigma instance to configure
    */
   static Sigma create() {
     return new DSigma();
   }
 
-  /** Add routes and handlers to the routing. */
-  Sigma routing(Consumer<Routing> routes);
+  /** Add routes and handlers to the router. */
+  Sigma routing(Consumer<Router> routes);
 
-  /** Add many routes and handlers to the routing. */
+  /** Add HttpServices to configure the routing and handlers to the routing. */
   Sigma routing(Collection<HttpService> routes);
 
-  /** Set the BodyMapper. */
-  Sigma addBodyMapper(BodyMapper jsonService);
+  /** Add a BodyMapper. Multiple mappers can be added for different media types */
+  Sigma addBodyMapper(BodyMapper mapper);
 
   /** Set to true to ignore trailing slashes. Defaults to true. */
   Sigma ignoreTrailingSlashes(boolean ignoreTrailingSlashes);
 
+  /** Create a function that will serve aws requests to the registered routes */
   HttpFunction createHttpFunction();
 
   public interface HttpFunction {

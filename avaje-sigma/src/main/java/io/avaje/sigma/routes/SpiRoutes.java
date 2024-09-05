@@ -1,20 +1,22 @@
 package io.avaje.sigma.routes;
 
 import io.avaje.sigma.HttpContext;
-import io.avaje.sigma.Routing;
+import io.avaje.sigma.Router;
 import java.util.Map;
 
 /** Route matching and filter handling. */
 public interface SpiRoutes {
 
   /** Find the matching handler entry given the type and request URI. */
-  Entry match(Routing.HttpMethod type, String pathInfo);
+  Entry match(Router.HttpMethod type, String pathInfo);
 
-  /** Execute all appropriate before filters for the given request URI. */
-  void before(String pathInfo, HttpContext ctx);
+  /** Execute all appropriate before filters for the given request URI.
+    */
+  void before(String pathInfo, HttpContext ctx) throws Exception;
 
-  /** Execute all appropriate after filters for the given request URI. */
-  void after(String pathInfo, HttpContext ctx);
+  /** Execute all appropriate after filters for the given request URI.
+ */
+  void after(String pathInfo, HttpContext ctx) throws Exception;
 
   void handleException(HttpContext ctx, Exception e);
 
@@ -27,9 +29,8 @@ public interface SpiRoutes {
     /**
      * Handle the request.
      *
-     * @throws Exception
      */
-    void handle(HttpContext ctx);
+    void handle(HttpContext ctx) throws Exception;
 
     /** Return the path parameter map given the uri. */
     Map<String, String> pathParams(String uri);

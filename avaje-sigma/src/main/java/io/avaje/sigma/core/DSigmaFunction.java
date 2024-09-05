@@ -1,7 +1,7 @@
 package io.avaje.sigma.core;
 
 import com.amazonaws.services.lambda.runtime.Context;
-import io.avaje.sigma.Routing;
+import io.avaje.sigma.Router;
 import io.avaje.sigma.Sigma;
 import io.avaje.sigma.aws.events.AWSHttpResponse;
 import io.avaje.sigma.aws.events.AWSRequest;
@@ -23,7 +23,7 @@ class DSigmaFunction implements Sigma.HttpFunction {
 
     SigmaContext ctx;
 
-    final Routing.HttpMethod routeType = req.httpMethod();
+    final Router.HttpMethod routeType = req.httpMethod();
     final String uri = req.path();
     SpiRoutes.Entry route = routes.match(routeType, uri);
     if (route != null) {
@@ -31,7 +31,8 @@ class DSigmaFunction implements Sigma.HttpFunction {
       ctx = new SigmaContext(manager, req, context, route.matchPath(), params);
 
       try {
-        processRoute(ctx, uri, route);
+        routes.before(uri, ctx);
+        route.handle(ctx);
         routes.after(uri, ctx);
       } catch (Exception e) {
         handleException(ctx, e);
@@ -46,10 +47,5 @@ class DSigmaFunction implements Sigma.HttpFunction {
   private void handleException(SigmaContext ctx, Exception e) {
     ctx.resetResponse();
     routes.handleException(ctx, e);
-  }
-
-  private void processRoute(SigmaContext ctx, String uri, SpiRoutes.Entry route) {
-    routes.before(uri, ctx);
-    route.handle(ctx);
   }
 }

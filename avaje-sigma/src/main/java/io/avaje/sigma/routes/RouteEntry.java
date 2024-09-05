@@ -20,7 +20,7 @@ class RouteEntry implements SpiRoutes.Entry {
   }
 
   @Override
-  public void handle(HttpContext ctx) {
+  public void handle(HttpContext ctx) throws Exception {
     handler.handle(ctx);
   }
 

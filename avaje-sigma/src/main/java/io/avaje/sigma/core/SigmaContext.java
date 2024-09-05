@@ -2,7 +2,7 @@ package io.avaje.sigma.core;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import io.avaje.sigma.HttpContext;
-import io.avaje.sigma.Routing.HttpMethod;
+import io.avaje.sigma.Router.HttpMethod;
 import io.avaje.sigma.aws.events.AWSHttpResponse;
 import io.avaje.sigma.aws.events.AWSRequest;
 import java.util.ArrayList;

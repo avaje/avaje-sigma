@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.amazonaws.services.lambda.runtime.Context;
 
-import io.avaje.sigma.Routing.HttpMethod;
+import io.avaje.sigma.Router.HttpMethod;
 import io.avaje.sigma.aws.events.AWSRequest;
 import io.avaje.sigma.body.BodyMapper;
 

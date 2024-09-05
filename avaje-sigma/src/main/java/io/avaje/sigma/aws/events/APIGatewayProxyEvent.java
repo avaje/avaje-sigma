@@ -1,6 +1,6 @@
 package io.avaje.sigma.aws.events;
 
-import io.avaje.sigma.Routing.HttpMethod;
+import io.avaje.sigma.Router.HttpMethod;
 import java.util.List;
 import java.util.Map;
 

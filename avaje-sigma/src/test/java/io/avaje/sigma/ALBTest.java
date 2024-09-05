@@ -14,7 +14,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import io.avaje.jsonb.Json;
 import io.avaje.jsonb.Jsonb;
 import io.avaje.sigma.ALBTest.Body;
-import io.avaje.sigma.Routing.HttpMethod;
+import io.avaje.sigma.Router.HttpMethod;
 import io.avaje.sigma.aws.events.ALBHttpEvent;
 import io.avaje.sigma.body.JacksonBodyMapper;
 

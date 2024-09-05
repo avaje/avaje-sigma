@@ -2,7 +2,7 @@ package io.avaje.sigma.routes;
 
 import io.avaje.sigma.Handler;
 import io.avaje.sigma.HttpContext;
-import io.avaje.sigma.Routing;
+import io.avaje.sigma.Router;
 import java.util.Map;
 
 /** Filter with special matchAll. */
@@ -13,7 +13,7 @@ class FilterEntry implements SpiRoutes.Entry {
   private final PathParser pathParser;
   private final Handler handler;
 
-  FilterEntry(Routing.Entry entry, boolean ignoreTrailingSlashes) {
+  FilterEntry(Router.Entry entry, boolean ignoreTrailingSlashes) {
     this.path = entry.path();
     this.matchAll = "/*".equals(path) || "*".equals(path);
     this.pathParser = matchAll ? null : new PathParser(path, ignoreTrailingSlashes);
@@ -31,7 +31,7 @@ class FilterEntry implements SpiRoutes.Entry {
   }
 
   @Override
-  public void handle(HttpContext ctx) {
+  public void handle(HttpContext ctx) throws Exception {
     handler.handle(ctx);
   }
 

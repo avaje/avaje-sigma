@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import io.avaje.sigma.HttpService;
-import io.avaje.sigma.Routing;
+import io.avaje.sigma.Router;
 import io.avaje.sigma.Sigma;
 import io.avaje.sigma.body.BodyMapper;
 import io.avaje.sigma.body.JacksonBodyMapper;
@@ -15,7 +15,7 @@ import io.avaje.sigma.routes.RoutesBuilder;
 
 public final class DSigma implements Sigma {
 
-  private final Routing routing = new DefaultRouting();
+  private final Router routing = new DefaultRouting();
   private final List<BodyMapper> bodyMappers = new ArrayList<>();
   private boolean ignoreTrailingSlashes = true;
 
@@ -31,7 +31,7 @@ public final class DSigma implements Sigma {
   }
 
   @Override
-  public Sigma routing(Consumer<Routing> consumer) {
+  public Sigma routing(Consumer<Router> consumer) {
     consumer.accept(routing);
     return this;
   }

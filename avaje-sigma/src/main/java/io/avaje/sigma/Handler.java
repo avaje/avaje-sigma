@@ -13,5 +13,5 @@ public interface Handler {
    *
    * @param req The HTTP request context.
    */
-  void handle(HttpContext req);
+  void handle(HttpContext req) throws Exception;
 }

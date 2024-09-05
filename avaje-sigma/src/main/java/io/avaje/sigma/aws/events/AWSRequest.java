@@ -1,6 +1,6 @@
 package io.avaje.sigma.aws.events;
 
-import io.avaje.sigma.Routing;
+import io.avaje.sigma.Router;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -28,7 +28,7 @@ public sealed interface AWSRequest
    *
    * @return The HTTP method of the request.
    */
-  Routing.HttpMethod httpMethod();
+  Router.HttpMethod httpMethod();
 
   /**
    * Returns the path of the request.

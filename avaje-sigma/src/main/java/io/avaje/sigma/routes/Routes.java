@@ -2,7 +2,7 @@ package io.avaje.sigma.routes;
 
 import io.avaje.sigma.ExceptionHandler;
 import io.avaje.sigma.HttpContext;
-import io.avaje.sigma.Routing;
+import io.avaje.sigma.Router;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +10,7 @@ import java.util.Map;
 class Routes implements SpiRoutes {
 
   /** The "real" handlers by http method. */
-  private final EnumMap<Routing.HttpMethod, RouteIndex> typeMap;
+  private final EnumMap<Router.HttpMethod, RouteIndex> typeMap;
 
   /** The before filters. */
   private final List<Entry> before;
@@ -21,7 +21,7 @@ class Routes implements SpiRoutes {
   private final Map<Class<?>, ExceptionHandler<?>> exceptionHandlers;
 
   Routes(
-      EnumMap<Routing.HttpMethod, RouteIndex> typeMap,
+      EnumMap<Router.HttpMethod, RouteIndex> typeMap,
       List<Entry> before,
       List<Entry> after,
       Map<Class<?>, ExceptionHandler<?>> exceptionHandlers) {
@@ -32,7 +32,7 @@ class Routes implements SpiRoutes {
   }
 
   @Override
-  public Entry match(Routing.HttpMethod type, String pathInfo) {
+  public Entry match(Router.HttpMethod type, String pathInfo) {
 
     final var routeIndex = typeMap.get(type);
 
@@ -42,7 +42,7 @@ class Routes implements SpiRoutes {
   }
 
   @Override
-  public void before(String pathInfo, HttpContext ctx) {
+  public void before(String pathInfo, HttpContext ctx) throws Exception {
     for (Entry beforeFilter : before) {
       if (beforeFilter.matches(pathInfo)) {
         beforeFilter.handle(ctx);
@@ -51,7 +51,7 @@ class Routes implements SpiRoutes {
   }
 
   @Override
-  public void after(String pathInfo, HttpContext ctx) {
+  public void after(String pathInfo, HttpContext ctx) throws Exception {
     for (Entry afterFilter : after) {
       if (afterFilter.matches(pathInfo)) {
         afterFilter.handle(ctx);
