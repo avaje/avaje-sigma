@@ -86,13 +86,11 @@ class DefaultRouting implements Routing {
     return this;
   }
 
-
   @Override
   public Routing delete(String path, Handler handler) {
     add(HttpMethod.DELETE, path, handler);
     return this;
   }
-
 
   @Override
   public Routing head(String path, Handler handler) {

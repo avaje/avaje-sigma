@@ -1,27 +1,22 @@
 package io.avaje.sigma;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.avaje.jsonb.Json;
-import io.avaje.sigma.ALBTest.Body;
-import io.avaje.sigma.Routing.HttpMethod;
-import io.avaje.sigma.aws.events.ALBHttpEvent;
 import io.avaje.sigma.aws.events.APIGatewayV2HttpEvent;
 import io.avaje.sigma.body.JacksonBodyMapper;
 
-import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 @Json.Import(APIGatewayV2HttpEvent.class)
 public class APIGatewayTest {
 
-  private final Sigma sigma = Sigma.create().addBodyMapper(new JacksonBodyMapper(new ObjectMapper()));
+  private final Sigma sigma =
+      Sigma.create().addBodyMapper(new JacksonBodyMapper(new ObjectMapper()));
   private APIGatewayV2HttpEvent albExample;
 
   @BeforeEach

@@ -188,10 +188,10 @@ public class ALBTest {
             .routing(
                 r ->
                     r.trace(
-                            "/lambda/",
-                            ctx -> {
-                              ctx.bodyAsClass(Body.class);
-                            }))
+                        "/lambda/",
+                        ctx -> {
+                          ctx.bodyAsClass(Body.class);
+                        }))
             .createHttpFunction();
     var result =
         httpFunction.apply(
