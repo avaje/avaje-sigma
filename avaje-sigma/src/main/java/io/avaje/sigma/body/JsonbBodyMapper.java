@@ -2,6 +2,7 @@ package io.avaje.sigma.body;
 
 import io.avaje.jsonb.Jsonb;
 
+/** BodyMapper using Avaje Jsonb */
 public class JsonbBodyMapper implements BodyMapper {
 
   Jsonb delegate;

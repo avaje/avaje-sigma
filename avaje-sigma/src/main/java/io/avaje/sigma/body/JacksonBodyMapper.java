@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.avaje.jsonb.JsonIoException;
 
+/** BodyMapper based on Jackson's ObjectMapper */
 public class JacksonBodyMapper implements BodyMapper {
 
   ObjectMapper delegate;

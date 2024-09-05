@@ -4,65 +4,173 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A router for managing HTTP requests and their corresponding handlers.
+ *
+ * <p>This class provides methods to add various types of HTTP handlers, including GET, POST, PUT,
+ * PATCH, DELETE, HEAD, and TRACE. It also supports before and after filters, as well as exception
+ * handlers for specific exception types.
+ */
 public interface Router {
 
-  /** Add the routes provided by the Router Service. */
+  /**
+   * Adds the routes provided by the given HTTP service.
+   *
+   * @param routes The HTTP service containing the routes to add.
+   * @return This `Router` instance for method chaining.
+   */
   Router add(HttpService routes);
 
-  /** Add all the routes provided by the Router Services. */
+  /**
+   * Adds all the routes provided by the given HTTP services.
+   *
+   * @param routes The collection of HTTP services containing the routes to add.
+   * @return This `Router` instance for method chaining.
+   */
   Router addAll(Collection<HttpService> routes);
 
-  /** Add a HEAD handler. */
+  /**
+   * Adds a HEAD handler for the specified path.
+   *
+   * @param path The path to match for HEAD requests.
+   * @param handler The handler to invoke when a HEAD request matches the path.
+   * @return This `Router` instance for method chaining.
+   */
   Router head(String path, Handler handler);
 
-  /** Add a GET handler. */
+  /**
+   * Adds a GET handler for the specified path.
+   *
+   * @param path The path to match for GET requests.
+   * @param handler The handler to invoke when a GET request matches the path.
+   * @return This `Router` instance for method chaining.
+   */
   Router get(String path, Handler handler);
 
-  /** Add a POST handler. */
+  /**
+   * Adds a POST handler for the specified path.
+   *
+   * @param path The path to match for POST requests.
+   * @param handler The handler to invoke when a POST request matches the path.
+   * @return This `Router` instance for method chaining.
+   */
   Router post(String path, Handler handler);
 
-  /** Add a PUT handler. */
+  /**
+   * Adds a PUT handler for the specified path.
+   *
+   * @param path The path to match for PUT requests.
+   * @param handler The handler to invoke when a PUT request matches the path.
+   * @return This `Router` instance for method chaining.
+   */
   Router put(String path, Handler handler);
 
-  /** Add a PATCH handler. */
+  /**
+   * Adds a PATCH handler for the specified path.
+   *
+   * @param path The path to match for PATCH requests.
+   * @param handler The handler to invoke when a PATCH request matches the path.
+   * @return This `Router` instance for method chaining.
+   */
   Router patch(String path, Handler handler);
 
-  /** Add a DELETE handler. */
+  /**
+   * Adds a DELETE handler for the specified path.
+   *
+   * @param path The path to match for DELETE requests.
+   * @param handler The handler to invoke when a DELETE request matches the path.
+   * @return This `Router` instance for method chaining.
+   */
   Router delete(String path, Handler handler);
 
-  /** Add a TRACE handler. */
+  /**
+   * Adds a TRACE handler for the specified path.
+   *
+   * @param path The path to match for TRACE requests.
+   * @param handler The handler to invoke when a TRACE request matches the path.
+   * @return This `Router` instance for method chaining.
+   */
   Router trace(String path, Handler handler);
 
-  /** Add a before filter for the given path. */
+  /**
+   * Adds a before filter for the given path.
+   *
+   * @param path The path to match for before filters.
+   * @param handler The handler to invoke before the actual request handler.
+   * @return This `Router` instance for method chaining.
+   */
   Router before(String path, Handler handler);
 
-  /** Add a before filter for all requests. */
+  /**
+   * Adds a before filter for all requests.
+   *
+   * @param handler The handler to invoke before the actual request handler for all requests.
+   * @return This `Router` instance for method chaining.
+   */
   Router before(Handler handler);
 
-  /** Add a after filter for the given path. */
+  /**
+   * Adds an after filter for the given path.
+   *
+   * @param path The path to match for after filters.
+   * @param handler The handler to invoke after the actual request handler.
+   * @return This `Router` instance for method chaining.
+   */
   Router after(String path, Handler handler);
 
-  /** Add an after filter for all requests. */
+  /**
+   * Adds an after filter for all requests.
+   *
+   * @param handler The handler to invoke after the actual request handler for all requests.
+   * @return This `Router` instance for method chaining.
+   */
   Router after(Handler handler);
 
-  /** Register an exception handler for the given exception type. */
+  /**
+   * Registers an exception handler for the given exception type.
+   *
+   * @param exceptionClass The exception class to handle.
+   * @param handler The exception handler to invoke when an exception of the given type occurs.
+   * @return This `Router` instance for method chaining.
+   */
   <T extends Exception> Router exception(Class<T> exceptionClass, ExceptionHandler<T> handler);
 
-  /** Return all the registered handlers. */
+  /**
+   * Returns all the registered handlers.
+   *
+   * @return A list of all registered routing entries.
+   */
   List<Entry> all();
 
+  /**
+   * Returns a map of exception classes to their corresponding exception handlers.
+   *
+   * @return A map containing the registered exception handlers.
+   */
   Map<Class<?>, ExceptionHandler<?>> exceptionHandlers();
 
   /** A routing entry. */
   interface Entry {
 
-    /** Return the type of entry. */
+    /**
+     * Returns the HTTP method associated with this entry.
+     *
+     * @return The HTTP method (e.g., GET, POST, PUT).
+     */
     HttpMethod type();
 
-    /** Return the full path of the entry. */
+    /**
+     * Returns the full path of the entry.
+     *
+     * @return The path pattern for matching requests.
+     */
     String path();
 
-    /** Return the handler. */
+    /**
+     * Returns the handler that will be invoked when a request matches this entry.
+     *
+     * @return The handler to execute.
+     */
     Handler handler();
   }
 
@@ -72,9 +180,9 @@ public interface Router {
     BEFORE,
     /** After filter. */
     AFTER,
-    /** Http GET. */
+    /** HTTP GET. */
     GET,
-    /** Http POST. */
+    /** HTTP POST. */
     POST,
     /** HTTP PUT. */
     PUT,

@@ -174,7 +174,7 @@ public interface HttpContext {
   HttpContext result(Object bean);
 
   /**
-   * Returns the response body as a string.
+   * Returns the current response body as a string.
    *
    * @return The response body as a string.
    */

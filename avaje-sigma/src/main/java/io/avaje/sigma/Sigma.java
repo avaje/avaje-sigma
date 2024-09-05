@@ -43,22 +43,54 @@ public interface Sigma {
     return new DSigma();
   }
 
-  /** Add routes and handlers to the router. */
+  /**
+   * Adds routes to the Sigma instance.
+   *
+   * @param routes A consumer that defines the routes.
+   * @return The Sigma instance for method chaining.
+   */
   Sigma routing(Consumer<Router> routes);
 
-  /** Add HttpServices to configure the routing and handlers to the routing. */
+  /**
+   * Adds a collection of {@link HttpService} instances to the Sigma instance.
+   *
+   * @param routes A collection of {@link HttpService} instances.
+   * @return The Sigma instance for method chaining.
+   */
   Sigma routing(Collection<HttpService> routes);
 
-  /** Add a BodyMapper. Multiple mappers can be added for different media types */
+  /**
+   * Adds a {@link BodyMapper} to the Sigma instance.. Multiple mappers can be added for different
+   * media types
+   *
+   * @param mapper The {@link BodyMapper} to add.
+   * @return The Sigma instance for method chaining.
+   */
   Sigma addBodyMapper(BodyMapper mapper);
 
-  /** Set to true to ignore trailing slashes. Defaults to true. */
+  /**
+   * Sets whether to ignore trailing slashes in URLs. Defaults to true.
+   *
+   * @param ignoreTrailingSlashes Whether to ignore trailing slashes.
+   * @return The Sigma instance for method chaining.
+   */
   Sigma ignoreTrailingSlashes(boolean ignoreTrailingSlashes);
 
-  /** Create a function that will serve aws requests to the registered routes */
+  /**
+   * Creates an {@link HttpFunction} that can handle AWS Lambda requests.
+   *
+   * @return The created {@link HttpFunction}.
+   */
   HttpFunction createHttpFunction();
 
   public interface HttpFunction {
+    /**
+     * Handles an incoming AWS Lambda request.
+     *
+     * @param request The incoming AWS request.
+     * @param ctx The Lambda context.
+     * @return The HTTP response to be sent back to the client.
+     */
     <T extends AWSRequest> AWSHttpResponse apply(T request, Context ctx);
   }
 }
