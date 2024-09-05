@@ -2,15 +2,15 @@ package io.avaje.sigma.body;
 
 import io.avaje.jsonb.Jsonb;
 
-public class JsonbService implements BodyMapper {
+public class JsonbBodyMapper implements BodyMapper {
 
   Jsonb delegate;
 
-  public JsonbService(Jsonb delegate) {
+  public JsonbBodyMapper(Jsonb delegate) {
     this.delegate = delegate;
   }
 
-  public JsonbService() {
+  public JsonbBodyMapper() {
     this(Jsonb.builder().build());
   }
 

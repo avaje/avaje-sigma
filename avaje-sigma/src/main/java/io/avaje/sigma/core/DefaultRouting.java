@@ -69,20 +69,8 @@ class DefaultRouting implements Routing {
   }
 
   @Override
-  public Routing get(Handler handler) {
-    get("", handler);
-    return this;
-  }
-
-  @Override
   public Routing post(String path, Handler handler) {
     add(HttpMethod.POST, path, handler);
-    return this;
-  }
-
-  @Override
-  public Routing post(Handler handler) {
-    post("", handler);
     return this;
   }
 
@@ -93,22 +81,11 @@ class DefaultRouting implements Routing {
   }
 
   @Override
-  public Routing put(Handler handler) {
-    put("", handler);
-    return this;
-  }
-
-  @Override
   public Routing patch(String path, Handler handler) {
     add(HttpMethod.PATCH, path, handler);
     return this;
   }
 
-  @Override
-  public Routing patch(Handler handler) {
-    patch("", handler);
-    return this;
-  }
 
   @Override
   public Routing delete(String path, Handler handler) {
@@ -116,11 +93,6 @@ class DefaultRouting implements Routing {
     return this;
   }
 
-  @Override
-  public Routing delete(Handler handler) {
-    delete("", handler);
-    return this;
-  }
 
   @Override
   public Routing head(String path, Handler handler) {
@@ -129,20 +101,8 @@ class DefaultRouting implements Routing {
   }
 
   @Override
-  public Routing head(Handler handler) {
-    head("", handler);
-    return this;
-  }
-
-  @Override
   public Routing trace(String path, Handler handler) {
     add(HttpMethod.TRACE, path, handler);
-    return this;
-  }
-
-  @Override
-  public Routing trace(Handler handler) {
-    trace("", handler);
     return this;
   }
 

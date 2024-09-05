@@ -3,17 +3,20 @@ package io.avaje.sigma;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
+import java.util.List;
+import java.util.Map;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import io.avaje.jsonb.Json;
 import io.avaje.jsonb.Jsonb;
+import io.avaje.sigma.ALBTest.Body;
 import io.avaje.sigma.Routing.HttpMethod;
 import io.avaje.sigma.aws.events.ALBHttpEvent;
-
-import java.util.List;
-import java.util.Map;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import io.avaje.sigma.body.JacksonBodyMapper;
 
 @Json.Import(ALBHttpEvent.class)
 public class ALBTest {
@@ -106,7 +109,7 @@ public class ALBTest {
     sigma.routing(
         r ->
             r.before("/", ctx -> fail(""))
-                .get("/lambda/404/{pathParam}", null)
+                .head("/lambda/404/{pathParam}", null)
                 .after("/", ctx -> fail("")));
     var result = sigma.createHttpFunction().apply(albExample, null);
     assertThat(result.statusCode()).isEqualTo(404);
@@ -175,5 +178,34 @@ public class ALBTest {
                 null);
     assertThat(result.statusCode()).isEqualTo(200);
     assertThat(result.multiValueHeaders()).isNotNull();
+  }
+
+  @Test
+  void testDeserializationError() {
+    final var httpFunction =
+        Sigma.create()
+            .addBodyMapper(new JacksonBodyMapper())
+            .routing(
+                r ->
+                    r.trace(
+                            "/lambda/",
+                            ctx -> {
+                              ctx.bodyAsClass(Body.class);
+                            }))
+            .createHttpFunction();
+    var result =
+        httpFunction.apply(
+            new ALBHttpEvent(
+                null,
+                HttpMethod.TRACE,
+                "/lambda/",
+                null,
+                null,
+                null,
+                null,
+                "{\"fail\":\"what the sigma?\"}",
+                false),
+            null);
+    assertThat(result.statusCode()).isEqualTo(500);
   }
 }

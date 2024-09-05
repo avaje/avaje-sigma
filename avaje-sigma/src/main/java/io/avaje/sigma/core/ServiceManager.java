@@ -34,7 +34,7 @@ class ServiceManager {
     var mapper = mappers.get(contentType);
 
     if (mapper == null) {
-      throw new IllegalStateException("No mapper provided for " + contentType);
+      throw new IllegalStateException("No mapper provided for media type: " + contentType);
     }
     return mapper;
   }

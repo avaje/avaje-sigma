@@ -15,44 +15,23 @@ public interface Routing {
   /** Add a HEAD handler. */
   Routing head(String path, Handler handler);
 
-  /** Add a HEAD handler for "/". */
-  Routing head(Handler handler);
-
   /** Add a GET handler. */
   Routing get(String path, Handler handler);
-
-  /** Add a GET handler for "/". */
-  Routing get(Handler handler);
 
   /** Add a POST handler. */
   Routing post(String path, Handler handler);
 
-  /** Add a POST handler for "/". */
-  Routing post(Handler handler);
-
   /** Add a PUT handler. */
   Routing put(String path, Handler handler);
-
-  /** Add a PUT handler for "/". */
-  Routing put(Handler handler);
 
   /** Add a PATCH handler. */
   Routing patch(String path, Handler handler);
 
-  /** Add a PATCH handler for "/". */
-  Routing patch(Handler handler);
-
   /** Add a DELETE handler. */
   Routing delete(String path, Handler handler);
 
-  /** Add a DELETE handler for "/". */
-  Routing delete(Handler handler);
-
   /** Add a TRACE handler. */
   Routing trace(String path, Handler handler);
-
-  /** Add a TRACE handler for "/". */
-  Routing trace(Handler handler);
 
   /** Add a before filter for the given path. */
   Routing before(String path, Handler handler);

@@ -7,10 +7,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.avaje.jsonb.Json;
+import io.avaje.sigma.ALBTest.Body;
 import io.avaje.sigma.Routing.HttpMethod;
 import io.avaje.sigma.aws.events.ALBHttpEvent;
 import io.avaje.sigma.aws.events.APIGatewayV2HttpEvent;
-import io.avaje.sigma.body.JacksonService;
+import io.avaje.sigma.body.JacksonBodyMapper;
 
 import java.util.List;
 import java.util.Map;
@@ -18,9 +19,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 @Json.Import(APIGatewayV2HttpEvent.class)
-public class APIGatewayMavenTest {
+public class APIGatewayTest {
 
-  private final Sigma sigma = Sigma.create().addBodyMapper(new JacksonService(new ObjectMapper()));
+  private final Sigma sigma = Sigma.create().addBodyMapper(new JacksonBodyMapper(new ObjectMapper()));
   private APIGatewayV2HttpEvent albExample;
 
   @BeforeEach
@@ -111,73 +112,15 @@ public class APIGatewayMavenTest {
   }
 
   @Test
-  void test404() {
-    var result = sigma.createHttpFunction().apply(albExample, null);
-    assertThat(result.statusCode()).isEqualTo(404);
-    assertThat(result.body()).contains("No route matching: /my/path");
-  }
-
-  @Json
-  public record Body(String str) {}
-
-  @Test
-  void testTRace() {
+  void testInvalidMediaType() {
     sigma.routing(
         r ->
-            r.trace("/", ctx -> fail(""))
-                .post(
-                    "/lambda/post/",
-                    ctx -> {
-                      assertThat(ctx.bodyAsClass(Body.class)).isInstanceOf(Body.class);
-                      ctx.html("pretend html");
-                    }));
-    var result =
-        sigma
-            .createHttpFunction()
-            .apply(
-                new ALBHttpEvent(
-                    null,
-                    HttpMethod.POST,
-                    "/lambda/post/",
-                    null,
-                    null,
-                    null,
-                    null,
-                    "{\"str\":\"what the sigma?\"}",
-                    false),
-                null);
-    assertThat(result.statusCode()).isEqualTo(200);
-    assertThat(result.body()).contains("pretend html");
-  }
-
-  @Test
-  void testMultiValue() {
-    sigma.routing(
-        r ->
-            r.patch(
-                "/lambda/patch/",
+            r.put(
+                "/my/path",
                 ctx -> {
-                  assertThat(ctx.queryParams("params")).hasSize(2);
-                  assertThat(ctx.headers("headers")).hasSize(2);
-                  ctx.base64EncodedBody("pretend 64");
-                  ctx.responseHeader("response", "response");
+                  ctx.contentType("fake").writeBody(r);
                 }));
-    var result =
-        sigma
-            .createHttpFunction()
-            .apply(
-                new ALBHttpEvent(
-                    null,
-                    HttpMethod.PATCH,
-                    "/lambda/patch/",
-                    null,
-                    Map.of("params", List.of("1", "2")),
-                    null,
-                    Map.of("headers", List.of("1", "2")),
-                    null,
-                    false),
-                null);
-    assertThat(result.statusCode()).isEqualTo(200);
-    assertThat(result.multiValueHeaders()).isNotNull();
+    var result = sigma.createHttpFunction().apply(albExample, null);
+    assertThat(result.statusCode()).isEqualTo(500);
   }
 }

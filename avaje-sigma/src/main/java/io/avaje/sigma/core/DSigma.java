@@ -9,8 +9,8 @@ import io.avaje.sigma.HttpService;
 import io.avaje.sigma.Routing;
 import io.avaje.sigma.Sigma;
 import io.avaje.sigma.body.BodyMapper;
-import io.avaje.sigma.body.JacksonService;
-import io.avaje.sigma.body.JsonbService;
+import io.avaje.sigma.body.JacksonBodyMapper;
+import io.avaje.sigma.body.JsonbBodyMapper;
 import io.avaje.sigma.routes.RoutesBuilder;
 
 public final class DSigma implements Sigma {
@@ -62,13 +62,13 @@ public final class DSigma implements Sigma {
 
     try {
       Class.forName("io.avaje.jsonb.Jsonb");
-      return new JsonbService();
+      return new JsonbBodyMapper();
     } catch (ClassNotFoundException e) {
       // nothing to do
     }
     try {
       Class.forName("com.fasterxml.jackson.databind.ObjectMapper");
-      return new JacksonService();
+      return new JacksonBodyMapper();
     } catch (ClassNotFoundException e) {
       // nothing to do
     }

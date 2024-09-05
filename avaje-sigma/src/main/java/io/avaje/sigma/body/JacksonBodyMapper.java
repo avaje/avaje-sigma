@@ -5,15 +5,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.avaje.jsonb.JsonIoException;
 
-public class JacksonService implements BodyMapper {
+public class JacksonBodyMapper implements BodyMapper {
 
   ObjectMapper delegate;
 
-  public JacksonService(ObjectMapper delegate) {
+  public JacksonBodyMapper(ObjectMapper delegate) {
     this.delegate = delegate;
   }
 
-  public JacksonService() {
+  public JacksonBodyMapper() {
     this(new ObjectMapper());
   }
 
