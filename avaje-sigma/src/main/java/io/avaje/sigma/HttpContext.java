@@ -65,8 +65,6 @@ public interface HttpContext {
    */
   String body();
 
-
-
   /**
    * Returns the content type of the request.
    *
@@ -157,7 +155,7 @@ public interface HttpContext {
   /**
    * Writes raw string content to the response body.
    *
-   * Will overwrite the current result if there is one.
+   * <p>Will overwrite the current result if there is one.
    *
    * @param content The raw content to write.
    * @return The current HTTP context.
@@ -168,7 +166,7 @@ public interface HttpContext {
    * Writes object to the response. Depending on the content type, a {@link BodyMapper} will be used
    * to serialize to a string.
    *
-   * Will overwrite the current result if there is one.
+   * <p>Will overwrite the current result if there is one.
    *
    * @param content The raw content to write.
    * @return The current HTTP context.
