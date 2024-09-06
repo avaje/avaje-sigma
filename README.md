@@ -22,7 +22,29 @@ public class LambdaRequestHandler
   @Override
   public AWSHttpResponse handleRequest(APIGatewayV2HttpEvent event, Context context) {
 
-    return handler.handle(event, context);
+    return handler.apply(event, context);
+  }
+}
+```
+
+### Use with Dependency Injection
+
+```java
+public class LambdaRequestHandler
+    implements RequestHandler<APIGatewayV2HttpEvent, AWSHttpResponse> {
+
+  HttpFunction handler;
+
+  public LambdaRequestHandler() {
+
+    List<HttpService> services = // Retrieve HttpServices via DI;
+    handler = Sigma.create().routing(services).createHttpFunction();
+  }
+
+  @Override
+  public AWSHttpResponse handleRequest(APIGatewayV2HttpEvent event, Context context) {
+
+    return handler.apply(event, context);
   }
 }
 ```
