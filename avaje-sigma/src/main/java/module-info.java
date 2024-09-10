@@ -5,6 +5,7 @@ module io.avaje.sigma {
 
   requires static com.fasterxml.jackson.databind;
   requires static io.avaje.jsonb;
+  requires static io.avaje.recordbuilder;
 
   // Why is there not even an automatic module???
   requires transitive aws.lambda.java.core;

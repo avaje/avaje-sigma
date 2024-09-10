@@ -1,9 +1,11 @@
 package io.avaje.sigma.aws.events;
 
+import io.avaje.recordbuilder.RecordBuilder;
 import io.avaje.sigma.Router.HttpMethod;
 import java.util.List;
 import java.util.Map;
 
+@RecordBuilder
 public record APIGatewayProxyEvent(
     String version,
     String resource,
@@ -15,18 +17,18 @@ public record APIGatewayProxyEvent(
     Map<String, List<String>> multiValueQueryStringParameters,
     Map<String, String> pathParameters,
     Map<String, String> stageVariables,
-    RequestContext requestContext,
+    ProxyRequestContext requestContext,
     String body,
     boolean isBase64Encoded)
     implements AWSRequest {
 
-  public record RequestContext(
+  public record ProxyRequestContext(
       String accountId,
       String stage,
       String resourceId,
       String requestId,
       String operationName,
-      RequestIdentity identity,
+      ProxyRequestIdentity identity,
       String resourcePath,
       String httpMethod,
       String apiId,
@@ -39,7 +41,7 @@ public record APIGatewayProxyEvent(
       String domainPrefix,
       String protocol) {}
 
-  public record RequestIdentity(
+  public record ProxyRequestIdentity(
       String principalId,
       String cognitoIdentityId,
       String cognitoIdentityPoolId,
@@ -47,4 +49,9 @@ public record APIGatewayProxyEvent(
       String account,
       String cognitoAuthenticationType,
       String userArn) {}
+
+  public static APIGatewayProxyEventBuilder builder() {
+
+    return APIGatewayProxyEventBuilder.builder();
+  }
 }

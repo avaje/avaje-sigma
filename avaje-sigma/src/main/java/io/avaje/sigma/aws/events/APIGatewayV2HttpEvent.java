@@ -1,11 +1,13 @@
 package io.avaje.sigma.aws.events;
 
+import io.avaje.recordbuilder.RecordBuilder;
 import io.avaje.sigma.Router.HttpMethod;
 import io.avaje.sigma.routes.UrlDecode;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@RecordBuilder
 public record APIGatewayV2HttpEvent(
     String version,
     String routeKey,
@@ -21,6 +23,7 @@ public record APIGatewayV2HttpEvent(
     RequestContext requestContext)
     implements AWSRequest {
 
+  @RecordBuilder
   public record RequestContext(
       String routeKey,
       String accountId,
@@ -32,14 +35,26 @@ public record APIGatewayV2HttpEvent(
       long timeEpoch,
       Http http,
       Authorizer authorizer,
-      String requestId) {}
+      String requestId) {
+    public static RequestContextBuilder builder() {
+
+      return RequestContextBuilder.builder();
+    }
+
+  }
+
+  @RecordBuilder
+  public record Http(
+      HttpMethod method, String path, String protocol, String sourceIp, String userAgent) {
+    public static HttpBuilder builder() {
+
+      return HttpBuilder.builder();
+    }
+  }
 
   public record Authorizer(JWT jwt, Map<String, Object> lambda, IAM iam) {}
 
   public record JWT(Map<String, String> claims, List<String> scopes) {}
-
-  public record Http(
-      HttpMethod method, String path, String protocol, String sourceIp, String userAgent) {}
 
   public record IAM(
       String accessKey,
@@ -51,6 +66,11 @@ public record APIGatewayV2HttpEvent(
       String userId) {}
 
   public record CognitoIdentity(List<String> amr, String identityId, String identityPoolId) {}
+
+  public static APIGatewayV2HttpEventBuilder builder() {
+
+    return APIGatewayV2HttpEventBuilder.builder();
+  }
 
   @Override
   public List<String> queryParams(String name) {
