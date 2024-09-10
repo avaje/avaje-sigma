@@ -40,7 +40,6 @@ public record APIGatewayV2HttpEvent(
 
       return RequestContextBuilder.builder();
     }
-
   }
 
   @RecordBuilder
