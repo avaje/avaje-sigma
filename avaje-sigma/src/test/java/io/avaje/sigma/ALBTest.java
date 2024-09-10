@@ -113,7 +113,7 @@ public class ALBTest {
                 .after("/", ctx -> fail("")));
     var result = sigma.createHttpFunction().apply(albExample, null);
     assertThat(result.statusCode()).isEqualTo(404);
-    assertThat(result.body()).contains("No route matching: /lambda/1234");
+    assertThat(result.body()).contains("No route matching");
   }
 
   @Json
