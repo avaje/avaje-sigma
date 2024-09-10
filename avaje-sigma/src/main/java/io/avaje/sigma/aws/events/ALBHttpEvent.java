@@ -20,5 +20,8 @@ public record ALBHttpEvent(
 
   public record ALBRequestContext(Elb elb) {
     public record Elb(String targetGroupArn) {}
+  }  public static ALBHttpEventBuilder builder() {
+
+    return ALBHttpEventBuilder.builder();
   }
 }
