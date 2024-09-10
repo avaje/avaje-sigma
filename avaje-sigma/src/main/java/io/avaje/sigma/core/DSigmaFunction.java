@@ -39,7 +39,10 @@ class DSigmaFunction implements Sigma.HttpFunction {
       }
     } else {
       ctx = new SigmaContext(manager, req, context, uri);
-      ctx.status(404).json("{\"error\":\"No route matching: %s\"}".formatted(uri));
+      ctx.status(404)
+          .json(
+              "{\"error\":\"No route matching http method %s, with path %s\"}"
+                  .formatted(req.httpMethod(), uri));
     }
     return ctx.createResponse();
   }
