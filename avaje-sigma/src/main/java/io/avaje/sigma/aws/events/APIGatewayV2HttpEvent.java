@@ -43,8 +43,7 @@ public record APIGatewayV2HttpEvent(
   }
 
   public record Http(
-      HttpMethod method, String path, String protocol, String sourceIp, String userAgent) {
-  }
+      HttpMethod method, String path, String protocol, String sourceIp, String userAgent) {}
 
   public record Authorizer(JWT jwt, Map<String, Object> lambda, IAM iam) {}
 
