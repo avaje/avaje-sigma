@@ -11,4 +11,9 @@ public record AWSHttpResponse(
     Map<String, String> headers,
     Map<String, List<String>> multiValueHeaders,
     String body,
-    boolean isBase64Encoded) {}
+    boolean isBase64Encoded) {
+
+  public static AWSHttpResponseBuilder builder() {
+    return AWSHttpResponseBuilder.builder();
+  }
+}
