@@ -13,7 +13,7 @@ public record AWSHttpResponse(
     String body,
     boolean isBase64Encoded) {
 
-    public static AWSHttpResponseBuilder builder() {
-        return AWSHttpResponseBuilder.builder();
-    }
+  public static AWSHttpResponseBuilder builder() {
+    return AWSHttpResponseBuilder.builder();
+  }
 }

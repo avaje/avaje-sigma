@@ -37,9 +37,9 @@ public record APIGatewayV2HttpEvent(
       Authorizer authorizer,
       String requestId) {
 
-      public static APIGatewayV2HttpEvent$RequestContextBuilder builder() {
-        return APIGatewayV2HttpEvent$RequestContextBuilder.builder();
-      }
+    public static APIGatewayV2HttpEvent$RequestContextBuilder builder() {
+      return APIGatewayV2HttpEvent$RequestContextBuilder.builder();
+    }
   }
 
   public record Http(
