@@ -42,7 +42,7 @@
     <dependency>
       <groupId>io.avaje</groupId>
       <artifactId>avaje-record-builder</artifactId>
-      <version>1.1-RC1</version>
+      <version>1.2</version>
     </dependency>
     
     <dependency>

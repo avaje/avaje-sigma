@@ -36,10 +36,10 @@ public record APIGatewayV2HttpEvent(
       Http http,
       Authorizer authorizer,
       String requestId) {
-    public static RequestContextBuilder builder() {
 
-      return RequestContextBuilder.builder();
-    }
+      public static APIGatewayV2HttpEvent$RequestContextBuilder builder() {
+        return APIGatewayV2HttpEvent$RequestContextBuilder.builder();
+      }
   }
 
   public record Http(
