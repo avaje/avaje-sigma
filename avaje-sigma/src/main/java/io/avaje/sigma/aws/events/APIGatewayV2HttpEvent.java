@@ -42,13 +42,8 @@ public record APIGatewayV2HttpEvent(
     }
   }
 
-  @RecordBuilder
   public record Http(
       HttpMethod method, String path, String protocol, String sourceIp, String userAgent) {
-    public static HttpBuilder builder() {
-
-      return HttpBuilder.builder();
-    }
   }
 
   public record Authorizer(JWT jwt, Map<String, Object> lambda, IAM iam) {}
