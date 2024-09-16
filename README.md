@@ -34,6 +34,12 @@ public class LambdaRequestHandler
 ```xml
 <dependency>
   <groupId>io.avaje</groupId>
+  <artifactId>avaje-sigma</artifactId>
+  <version>${sigma.version}</version>
+</dependency>
+
+<dependency>
+  <groupId>io.avaje</groupId>
   <artifactId>avaje-http-api</artifactId>
   <version>2.8-RC3</version>
 </dependency>
