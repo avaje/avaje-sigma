@@ -30,7 +30,7 @@ public class LambdaRequestHandler
 ## Use with [Avaje Http](https://avaje.io/http/)
 
 
-## Add dependencies
+### Add dependencies
 ```xml
 <dependency>
   <groupId>io.avaje</groupId>
@@ -54,7 +54,7 @@ public class LambdaRequestHandler
 </dependency>
 ```
 
-### JDK 23+
+#### JDK 23+
 
 In JDK 23+, annotation processors are disabled by default, you will need to add a flag to re-enable.
 ```xml
@@ -63,7 +63,7 @@ In JDK 23+, annotation processors are disabled by default, you will need to add 
 </properties>
 ```
 
-## Define a Controller
+### Define a Controller
 ```java
 package org.example.hello;
 
@@ -126,7 +126,7 @@ public class WidgetController$Route implements HttpService {
 }
 ```
 
-## DI Usage
+### DI Usage
 
 ```java
 public class LambdaRequestHandler
