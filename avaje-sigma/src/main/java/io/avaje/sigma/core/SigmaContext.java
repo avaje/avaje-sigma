@@ -213,7 +213,7 @@ public final class SigmaContext implements HttpContext {
 
   @Override
   public void skipRemainingHandlers() {
-    this.skipRemaining=true;
+    this.skipRemaining = true;
   }
 
   @Override

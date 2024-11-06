@@ -1,7 +1,6 @@
 package io.avaje.sigma.routes;
 
 import io.avaje.sigma.Handler;
-import io.avaje.sigma.HttpContext;
 import io.avaje.sigma.Router;
 import io.avaje.sigma.core.SigmaContext;
 
