@@ -3,6 +3,8 @@ package io.avaje.sigma.routes;
 import io.avaje.sigma.ExceptionHandler;
 import io.avaje.sigma.HttpContext;
 import io.avaje.sigma.Router;
+import io.avaje.sigma.core.SigmaContext;
+
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -42,18 +44,18 @@ final class Routes implements SpiRoutes {
   }
 
   @Override
-  public void before(String pathInfo, HttpContext ctx) throws Exception {
+  public void before(String pathInfo, SigmaContext ctx) throws Exception {
     for (Entry beforeFilter : before) {
-      if (beforeFilter.matches(pathInfo)) {
+      if (!ctx.handlersSkipped() && beforeFilter.matches(pathInfo)) {
         beforeFilter.handle(ctx);
       }
     }
   }
 
   @Override
-  public void after(String pathInfo, HttpContext ctx) throws Exception {
+  public void after(String pathInfo, SigmaContext ctx) throws Exception {
     for (Entry afterFilter : after) {
-      if (afterFilter.matches(pathInfo)) {
+      if (!ctx.handlersSkipped() && afterFilter.matches(pathInfo)) {
         afterFilter.handle(ctx);
       }
     }

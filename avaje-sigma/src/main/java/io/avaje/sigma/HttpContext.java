@@ -180,6 +180,9 @@ public interface HttpContext {
    */
   String result();
 
+  /** Skip further request handling, */
+  void skipRemainingHandlers();
+
   /**
    * Returns the value of the specified request header.
    *

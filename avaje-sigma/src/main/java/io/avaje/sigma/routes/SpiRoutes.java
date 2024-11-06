@@ -1,8 +1,10 @@
 package io.avaje.sigma.routes;
 
+import java.util.Map;
+
 import io.avaje.sigma.HttpContext;
 import io.avaje.sigma.Router;
-import java.util.Map;
+import io.avaje.sigma.core.SigmaContext;
 
 /** Route matching and filter handling. */
 public sealed interface SpiRoutes permits Routes {
@@ -11,10 +13,10 @@ public sealed interface SpiRoutes permits Routes {
   Entry match(Router.HttpMethod type, String pathInfo);
 
   /** Execute all appropriate before filters for the given request URI. */
-  void before(String pathInfo, HttpContext ctx) throws Exception;
+  void before(String pathInfo, SigmaContext ctx) throws Exception;
 
   /** Execute all appropriate after filters for the given request URI. */
-  void after(String pathInfo, HttpContext ctx) throws Exception;
+  void after(String pathInfo, SigmaContext ctx) throws Exception;
 
   void handleException(HttpContext ctx, Exception e);
 
@@ -25,7 +27,7 @@ public sealed interface SpiRoutes permits Routes {
     boolean matches(String requestUri);
 
     /** Handle the request. */
-    void handle(HttpContext ctx) throws Exception;
+    void handle(SigmaContext ctx) throws Exception;
 
     /** Return the path parameter map given the uri. */
     Map<String, String> pathParams(String uri);
