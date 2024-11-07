@@ -41,14 +41,14 @@ public class LambdaRequestHandler
 <dependency>
   <groupId>io.avaje</groupId>
   <artifactId>avaje-http-api</artifactId>
-  <version>2.8-RC3</version>
+  <version>2.8</version>
 </dependency>
 
 <!-- Annotation processor -->
 <dependency>
   <groupId>io.avaje</groupId>
   <artifactId>avaje-http-sigma-generator</artifactId>
-  <version>2.8-RC3</version>
+  <version>2.8</version>
   <scope>provided</scope>
   <optional>true</optional>
 </dependency>

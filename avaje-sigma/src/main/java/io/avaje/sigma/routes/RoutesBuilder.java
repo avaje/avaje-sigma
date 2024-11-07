@@ -7,7 +7,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-public class RoutesBuilder {
+public final class RoutesBuilder {
 
   private final EnumMap<Router.HttpMethod, RouteIndex> typeMap =
       new EnumMap<>(Router.HttpMethod.class);

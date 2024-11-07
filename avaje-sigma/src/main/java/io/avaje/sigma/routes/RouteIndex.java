@@ -3,7 +3,7 @@ package io.avaje.sigma.routes;
 import java.util.ArrayList;
 import java.util.List;
 
-class RouteIndex {
+final class RouteIndex {
 
   /** Partition entries by the number of path segments. */
   private final RouteIndex.Entry[] entries = new RouteIndex.Entry[6];

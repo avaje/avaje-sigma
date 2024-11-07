@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
-class PathSegmentParser {
+final class PathSegmentParser {
 
   private static final PathSegment WILDCARD = new PathSegment.Wildcard();
 
@@ -31,7 +31,7 @@ class PathSegmentParser {
   }
 
   static PathSegment parse(String seg, String rawPath) {
-    if (seg.equals("*")) {
+    if ("*".equals(seg)) {
       return WILDCARD;
     }
     return new PathSegmentParser(seg, rawPath).parse();
@@ -42,10 +42,7 @@ class PathSegmentParser {
     if (matchOnlyStartEnd('<', '>')) {
       return new PathSegment.SlashAcceptingParameter(trim(segment));
     }
-    if (matchOnlyStartEnd('{', '}')) {
-      return new PathSegment.SlashIgnoringParameter(trim(segment));
-    }
-    if (matchParamWithRegex(segment)) {
+    if (matchOnlyStartEnd('{', '}') || matchParamWithRegex(segment)) {
       return new PathSegment.SlashIgnoringParameter(trim(segment));
     }
     if (matchLiteral(segment)) {
@@ -79,7 +76,7 @@ class PathSegmentParser {
   }
 
   private PathSegment tokenSegment(String token) {
-    if (token.equals("*")) {
+    if ("*".equals(token)) {
       return WILDCARD;
     } else if (token.startsWith("<")) {
       return slashAccepting(token);
