@@ -7,7 +7,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-class Routes implements SpiRoutes {
+final class Routes implements SpiRoutes {
 
   /** The "real" handlers by http method. */
   private final EnumMap<Router.HttpMethod, RouteIndex> typeMap;

@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class PathParser {
+final class PathParser {
 
   private final String rawPath;
   private final List<String> paramNames = new ArrayList<>();

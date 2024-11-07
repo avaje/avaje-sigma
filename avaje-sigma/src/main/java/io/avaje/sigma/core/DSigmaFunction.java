@@ -8,7 +8,7 @@ import io.avaje.sigma.aws.events.AWSRequest;
 import io.avaje.sigma.routes.SpiRoutes;
 import java.util.Map;
 
-class DSigmaFunction implements Sigma.HttpFunction {
+final class DSigmaFunction implements Sigma.HttpFunction {
 
   private final SpiRoutes routes;
   private final ServiceManager manager;

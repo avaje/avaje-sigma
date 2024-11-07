@@ -5,7 +5,7 @@ import io.avaje.sigma.Router;
 import java.util.Map;
 
 /** Route matching and filter handling. */
-public interface SpiRoutes {
+public sealed interface SpiRoutes permits Routes {
 
   /** Find the matching handler entry given the type and request URI. */
   Entry match(Router.HttpMethod type, String pathInfo);
@@ -19,7 +19,7 @@ public interface SpiRoutes {
   void handleException(HttpContext ctx, Exception e);
 
   /** A route entry. */
-  interface Entry {
+ sealed interface Entry permits FilterEntry, RouteEntry {
 
     /** Return true if it matches the request URI. */
     boolean matches(String requestUri);

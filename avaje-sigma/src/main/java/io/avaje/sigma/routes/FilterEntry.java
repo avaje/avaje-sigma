@@ -6,7 +6,7 @@ import io.avaje.sigma.Router;
 import java.util.Map;
 
 /** Filter with special matchAll. */
-class FilterEntry implements SpiRoutes.Entry {
+final class FilterEntry implements SpiRoutes.Entry {
 
   private final String path;
   private final boolean matchAll;

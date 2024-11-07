@@ -13,7 +13,7 @@ import java.util.function.Function;
 import io.avaje.sigma.body.BodyMapper;
 
 /** Core implementation of SpiServiceManager provided to specific implementations like jetty etc. */
-class ServiceManager {
+final class ServiceManager {
 
   private final Map<String, BodyMapper> mappers;
 

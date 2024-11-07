@@ -12,8 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/** */
-class DefaultRouting implements Router {
+final class DefaultRouting implements Router {
 
   private static final String SLASH = "/";
   private final List<Router.Entry> handlers = new ArrayList<>();
@@ -45,8 +44,7 @@ class DefaultRouting implements Router {
   }
 
   private void add(HttpMethod verb, String path, Handler handler) {
-    Entry lastEntry;
-    lastEntry = new Entry(verb, path(path), handler);
+    Entry lastEntry = new Entry(verb, path(path), handler);
     handlers.add(lastEntry);
   }
 

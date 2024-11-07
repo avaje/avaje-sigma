@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class SigmaContext implements HttpContext {
+final class SigmaContext implements HttpContext {
 
   public static final String CONTENT_TYPE = "Content-Type";
 
