@@ -19,7 +19,7 @@ public sealed interface SpiRoutes permits Routes {
   void handleException(HttpContext ctx, Exception e);
 
   /** A route entry. */
- sealed interface Entry permits FilterEntry, RouteEntry {
+  sealed interface Entry permits FilterEntry, RouteEntry {
 
     /** Return true if it matches the request URI. */
     boolean matches(String requestUri);
