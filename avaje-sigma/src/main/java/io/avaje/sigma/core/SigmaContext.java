@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class SigmaContext implements HttpContext {
+final class SigmaContext implements HttpContext {
 
   public static final String CONTENT_TYPE = "Content-Type";
 
@@ -217,6 +217,11 @@ public final class SigmaContext implements HttpContext {
   }
 
   @Override
+  public boolean handlersSkipped() {
+    return skipRemaining;
+  }
+
+  @Override
   public HttpContext base64EncodedResult(String content) {
     this.base64Encoded = true;
     return result(content);
@@ -237,9 +242,5 @@ public final class SigmaContext implements HttpContext {
 
     return new AWSHttpResponse(
         status, responseHeaders, multiValueResponseHeaders, body, base64Encoded);
-  }
-
-  public boolean handlersSkipped() {
-    return skipRemaining;
   }
 }

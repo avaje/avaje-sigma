@@ -1,8 +1,7 @@
 package io.avaje.sigma.routes;
 
 import io.avaje.sigma.Handler;
-import io.avaje.sigma.core.SigmaContext;
-
+import io.avaje.sigma.HttpContext;
 import java.util.Map;
 
 final class RouteEntry implements SpiRoutes.Entry {
@@ -21,8 +20,8 @@ final class RouteEntry implements SpiRoutes.Entry {
   }
 
   @Override
-  public void handle(SigmaContext ctx) throws Exception {
-    if (!ctx.handlersSkipped()) handler.handle(ctx);
+  public void handle(HttpContext ctx) throws Exception {
+    handler.handle(ctx);
   }
 
   @Override

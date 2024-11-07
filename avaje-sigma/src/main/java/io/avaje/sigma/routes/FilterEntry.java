@@ -1,9 +1,8 @@
 package io.avaje.sigma.routes;
 
 import io.avaje.sigma.Handler;
+import io.avaje.sigma.HttpContext;
 import io.avaje.sigma.Router;
-import io.avaje.sigma.core.SigmaContext;
-
 import java.util.Map;
 
 /** Filter with special matchAll. */
@@ -32,8 +31,8 @@ final class FilterEntry implements SpiRoutes.Entry {
   }
 
   @Override
-  public void handle(SigmaContext ctx) throws Exception {
-    if (!ctx.handlersSkipped()) handler.handle(ctx);
+  public void handle(HttpContext ctx) throws Exception {
+    handler.handle(ctx);
   }
 
   @Override
