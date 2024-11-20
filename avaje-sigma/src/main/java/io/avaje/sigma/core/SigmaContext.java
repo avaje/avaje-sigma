@@ -31,6 +31,7 @@ final class SigmaContext implements HttpContext {
 
   private String body;
   private boolean base64Encoded;
+  private boolean skipRemaining;
 
   SigmaContext(ServiceManager mgr, AWSRequest req, Context ctx, String matchedPath) {
     this(mgr, req, ctx, matchedPath, Map.of());
@@ -208,6 +209,16 @@ final class SigmaContext implements HttpContext {
   public HttpContext result(Object content) {
     this.body = mgr.writeBody(contentType, content);
     return this;
+  }
+
+  @Override
+  public void skipRemainingHandlers() {
+    this.skipRemaining = true;
+  }
+
+  @Override
+  public boolean handlersSkipped() {
+    return skipRemaining;
   }
 
   @Override
