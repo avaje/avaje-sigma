@@ -24,7 +24,7 @@ import java.util.function.Consumer;
 public interface Sigma {
 
   /**
-   * Create a Sigma instance used to create a function for AWS request Handler.
+   * Create a Sigma instance used to create a function for AWS request RequestHandler.
    *
    * <pre>{@code
    * final AWSHttpHandler app = Sigma.create()

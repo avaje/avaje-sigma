@@ -29,11 +29,8 @@ final class DSigmaFunction implements Sigma.HttpFunction {
     if (route != null) {
       final Map<String, String> params = route.pathParams(uri);
       ctx = new SigmaContext(manager, req, context, route.matchPath(), params);
-
       try {
-        routes.before(uri, ctx);
-        route.handle(ctx);
-        routes.after(uri, ctx);
+        new BaseFilterChain(routes.filters(), route.handler(), ctx).proceed();
       } catch (Exception e) {
         handleException(ctx, e);
       }
