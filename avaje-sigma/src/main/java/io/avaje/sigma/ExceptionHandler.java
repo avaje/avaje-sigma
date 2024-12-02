@@ -10,8 +10,8 @@ public interface ExceptionHandler<T extends Exception> {
   /**
    * Handles the given exception.
    *
-   * @param exception The exception to handle.
    * @param ctx The HTTP context of the invocation.
+   * @param exception The exception to handle.
    */
-  void handle(T exception, HttpContext ctx);
+  void handle(HttpContext ctx, T exception);
 }

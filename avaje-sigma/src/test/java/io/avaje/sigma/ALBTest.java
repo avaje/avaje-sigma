@@ -62,7 +62,7 @@ public class ALBTest {
                     })
                 .exception(
                     IllegalStateException.class,
-                    (e, ctx) -> {
+                    (ctx, e) -> {
                       assertThat(e instanceof IllegalStateException).isTrue();
 
                       ctx.json(Map.of("msg", "failed")).status(500);

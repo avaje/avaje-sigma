@@ -42,7 +42,7 @@ final class Routes implements SpiRoutes {
 
     var exHandler = find(e.getClass());
     if (exHandler != null) {
-      exHandler.handle(e, ctx);
+      exHandler.handle(ctx, e);
     } else {
       ctx.status(500)
           .json("{\"error\":\"Failed to process request: %s\"}".formatted(e.getMessage()));
@@ -62,6 +62,7 @@ final class Routes implements SpiRoutes {
     return null;
   }
 
+  @Override
   public List<HttpFilter> filters() {
     return filters;
   }
