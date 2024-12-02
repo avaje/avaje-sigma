@@ -139,7 +139,6 @@ public interface Router {
    */
   List<Entry> all();
 
-
   /** Return all the registered filters. */
   List<HttpFilter> filters();
 
@@ -192,5 +191,4 @@ public interface Router {
     /** HTTP TRACE. */
     TRACE;
   }
-
 }

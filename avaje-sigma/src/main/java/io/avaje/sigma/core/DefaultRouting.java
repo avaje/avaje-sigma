@@ -127,5 +127,6 @@ final class DefaultRouting implements Router {
     return exceptionHandlers;
   }
 
-  private record Entry(HttpMethod type, String path, RequestHandler handler) implements Router.Entry {}
+  private record Entry(HttpMethod type, String path, RequestHandler handler)
+      implements Router.Entry {}
 }
