@@ -1,15 +1,15 @@
 package io.avaje.sigma.routes;
 
-import io.avaje.sigma.Handler;
+import io.avaje.sigma.RequestHandler;
 import io.avaje.sigma.HttpContext;
 import java.util.Map;
 
 final class RouteEntry implements SpiRoutes.Entry {
 
   private final PathParser path;
-  private final Handler handler;
+  private final RequestHandler handler;
 
-  RouteEntry(PathParser path, Handler handler) {
+  RouteEntry(PathParser path, RequestHandler handler) {
     this.path = path;
     this.handler = handler;
   }
@@ -20,8 +20,8 @@ final class RouteEntry implements SpiRoutes.Entry {
   }
 
   @Override
-  public void handle(HttpContext ctx) throws Exception {
-    handler.handle(ctx);
+  public RequestHandler handler() {
+    return handler;
   }
 
   @Override

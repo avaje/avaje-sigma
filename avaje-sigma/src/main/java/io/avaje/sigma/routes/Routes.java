@@ -2,6 +2,7 @@ package io.avaje.sigma.routes;
 
 import io.avaje.sigma.ExceptionHandler;
 import io.avaje.sigma.HttpContext;
+import io.avaje.sigma.HttpFilter;
 import io.avaje.sigma.Router;
 import java.util.EnumMap;
 import java.util.List;
@@ -12,22 +13,17 @@ final class Routes implements SpiRoutes {
   /** The "real" handlers by http method. */
   private final EnumMap<Router.HttpMethod, RouteIndex> typeMap;
 
-  /** The before filters. */
-  private final List<Entry> before;
-
-  /** The after filters. */
-  private final List<Entry> after;
+  /** The filters. */
+  private final List<HttpFilter> filters;
 
   private final Map<Class<?>, ExceptionHandler<?>> exceptionHandlers;
 
   Routes(
       EnumMap<Router.HttpMethod, RouteIndex> typeMap,
-      List<Entry> before,
-      List<Entry> after,
+      List<HttpFilter> filters,
       Map<Class<?>, ExceptionHandler<?>> exceptionHandlers) {
     this.typeMap = typeMap;
-    this.before = before;
-    this.after = after;
+    this.filters = filters;
     this.exceptionHandlers = exceptionHandlers;
   }
 
@@ -39,24 +35,6 @@ final class Routes implements SpiRoutes {
     if (routeIndex == null) return null;
 
     return routeIndex.match(pathInfo);
-  }
-
-  @Override
-  public void before(String pathInfo, HttpContext ctx) throws Exception {
-    for (Entry beforeFilter : before) {
-      if (beforeFilter.matches(pathInfo)) {
-        beforeFilter.handle(ctx);
-      }
-    }
-  }
-
-  @Override
-  public void after(String pathInfo, HttpContext ctx) throws Exception {
-    for (Entry afterFilter : after) {
-      if (afterFilter.matches(pathInfo)) {
-        afterFilter.handle(ctx);
-      }
-    }
   }
 
   @Override
@@ -82,5 +60,9 @@ final class Routes implements SpiRoutes {
       type = type.getSuperclass();
     } while (type != null);
     return null;
+  }
+
+  public List<HttpFilter> filters() {
+    return filters;
   }
 }

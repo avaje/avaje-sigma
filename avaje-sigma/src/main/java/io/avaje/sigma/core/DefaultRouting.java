@@ -1,9 +1,5 @@
 package io.avaje.sigma.core;
 
-import io.avaje.sigma.ExceptionHandler;
-import io.avaje.sigma.Handler;
-import io.avaje.sigma.HttpService;
-import io.avaje.sigma.Router;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,9 +8,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.avaje.sigma.ExceptionHandler;
+import io.avaje.sigma.RequestHandler;
+import io.avaje.sigma.HttpFilter;
+import io.avaje.sigma.HttpService;
+import io.avaje.sigma.Router;
+
 final class DefaultRouting implements Router {
 
   private static final String SLASH = "/";
+  private final List<HttpFilter> filters = new ArrayList<>();
   private final List<Router.Entry> handlers = new ArrayList<>();
   private final Deque<String> pathDeque = new ArrayDeque<>();
   private final Map<Class<?>, ExceptionHandler<?>> exceptionHandlers = new HashMap<>();
@@ -43,17 +46,9 @@ final class DefaultRouting implements Router {
     return this;
   }
 
-  private void add(HttpMethod verb, String path, Handler handler) {
+  private void add(HttpMethod verb, String path, RequestHandler handler) {
     Entry lastEntry = new Entry(verb, path(path), handler);
     handlers.add(lastEntry);
-  }
-
-  private void addBefore(String path, Handler handler) {
-    add(HttpMethod.BEFORE, path(path), handler);
-  }
-
-  private void addAfter(String path, Handler handler) {
-    add(HttpMethod.AFTER, path(path), handler);
   }
 
   // ********************************************************************************************
@@ -61,73 +56,60 @@ final class DefaultRouting implements Router {
   // ********************************************************************************************
 
   @Override
-  public Router get(String path, Handler handler) {
+  public Router get(String path, RequestHandler handler) {
     add(HttpMethod.GET, path, handler);
     return this;
   }
 
   @Override
-  public Router post(String path, Handler handler) {
+  public Router post(String path, RequestHandler handler) {
     add(HttpMethod.POST, path, handler);
     return this;
   }
 
   @Override
-  public Router put(String path, Handler handler) {
+  public Router put(String path, RequestHandler handler) {
     add(HttpMethod.PUT, path, handler);
     return this;
   }
 
   @Override
-  public Router patch(String path, Handler handler) {
+  public Router patch(String path, RequestHandler handler) {
     add(HttpMethod.PATCH, path, handler);
     return this;
   }
 
   @Override
-  public Router delete(String path, Handler handler) {
+  public Router delete(String path, RequestHandler handler) {
     add(HttpMethod.DELETE, path, handler);
     return this;
   }
 
   @Override
-  public Router head(String path, Handler handler) {
+  public Router head(String path, RequestHandler handler) {
     add(HttpMethod.HEAD, path, handler);
     return this;
   }
 
   @Override
-  public Router trace(String path, Handler handler) {
+  public Router trace(String path, RequestHandler handler) {
     add(HttpMethod.TRACE, path, handler);
     return this;
   }
 
   // ********************************************************************************************
-  // Before/after handlers (filters)
+  // Filters
   // ********************************************************************************************
 
   @Override
-  public Router before(String path, Handler handler) {
-    addBefore(path, handler);
+  public Router filter(HttpFilter handler) {
+    filters.add(handler);
     return this;
   }
 
   @Override
-  public Router before(Handler handler) {
-    before("/*", handler);
-    return this;
-  }
-
-  @Override
-  public Router after(String path, Handler handler) {
-    addAfter(path, handler);
-    return this;
-  }
-
-  @Override
-  public Router after(Handler handler) {
-    after("/*", handler);
-    return this;
+  public List<HttpFilter> filters() {
+    return filters;
   }
 
   // ********************************************************************************************
@@ -145,5 +127,5 @@ final class DefaultRouting implements Router {
     return exceptionHandlers;
   }
 
-  private record Entry(HttpMethod type, String path, Handler handler) implements Router.Entry {}
+  private record Entry(HttpMethod type, String path, RequestHandler handler) implements Router.Entry {}
 }

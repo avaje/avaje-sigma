@@ -13,7 +13,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import io.avaje.jsonb.Json;
 import io.avaje.jsonb.Jsonb;
-import io.avaje.sigma.ALBTest.Body;
 import io.avaje.sigma.Router.HttpMethod;
 import io.avaje.sigma.aws.events.ALBHttpEvent;
 import io.avaje.sigma.body.JacksonBodyMapper;
@@ -108,9 +107,7 @@ public class ALBTest {
   void test404() {
     sigma.routing(
         r ->
-            r.before("/", ctx -> fail(""))
-                .head("/lambda/404/{pathParam}", null)
-                .after("/", ctx -> fail("")));
+            r.before(ctx -> fail("")).head("/lambda/404/{pathParam}", null).after(ctx -> fail("")));
     var result = sigma.createHttpFunction().apply(albExample, null);
     assertThat(result.statusCode()).isEqualTo(404);
     assertThat(result.body()).contains("No route matching");
@@ -123,13 +120,12 @@ public class ALBTest {
   void testPost() {
     sigma.routing(
         r ->
-            r.before("/", ctx -> fail(""))
-                .post(
-                    "/lambda/post/",
-                    ctx -> {
-                      assertThat(ctx.bodyAsClass(Body.class)).isInstanceOf(Body.class);
-                      ctx.html("pretend html");
-                    }));
+            r.post(
+                "/lambda/post/",
+                ctx -> {
+                  assertThat(ctx.bodyAsClass(Body.class)).isInstanceOf(Body.class);
+                  ctx.html("pretend html");
+                }));
     var result =
         sigma
             .createHttpFunction()

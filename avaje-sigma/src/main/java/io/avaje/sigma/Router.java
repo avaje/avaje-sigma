@@ -36,7 +36,7 @@ public interface Router {
    * @param handler The handler to invoke when a HEAD request matches the path.
    * @return This `Router` instance for method chaining.
    */
-  Router head(String path, Handler handler);
+  Router head(String path, RequestHandler handler);
 
   /**
    * Adds a GET handler for the specified path.
@@ -45,7 +45,7 @@ public interface Router {
    * @param handler The handler to invoke when a GET request matches the path.
    * @return This `Router` instance for method chaining.
    */
-  Router get(String path, Handler handler);
+  Router get(String path, RequestHandler handler);
 
   /**
    * Adds a POST handler for the specified path.
@@ -54,7 +54,7 @@ public interface Router {
    * @param handler The handler to invoke when a POST request matches the path.
    * @return This `Router` instance for method chaining.
    */
-  Router post(String path, Handler handler);
+  Router post(String path, RequestHandler handler);
 
   /**
    * Adds a PUT handler for the specified path.
@@ -63,7 +63,7 @@ public interface Router {
    * @param handler The handler to invoke when a PUT request matches the path.
    * @return This `Router` instance for method chaining.
    */
-  Router put(String path, Handler handler);
+  Router put(String path, RequestHandler handler);
 
   /**
    * Adds a PATCH handler for the specified path.
@@ -72,7 +72,7 @@ public interface Router {
    * @param handler The handler to invoke when a PATCH request matches the path.
    * @return This `Router` instance for method chaining.
    */
-  Router patch(String path, Handler handler);
+  Router patch(String path, RequestHandler handler);
 
   /**
    * Adds a DELETE handler for the specified path.
@@ -81,7 +81,7 @@ public interface Router {
    * @param handler The handler to invoke when a DELETE request matches the path.
    * @return This `Router` instance for method chaining.
    */
-  Router delete(String path, Handler handler);
+  Router delete(String path, RequestHandler handler);
 
   /**
    * Adds a TRACE handler for the specified path.
@@ -90,16 +90,10 @@ public interface Router {
    * @param handler The handler to invoke when a TRACE request matches the path.
    * @return This `Router` instance for method chaining.
    */
-  Router trace(String path, Handler handler);
+  Router trace(String path, RequestHandler handler);
 
-  /**
-   * Adds a before filter for the given path.
-   *
-   * @param path The path to match for before filters.
-   * @param handler The handler to invoke before the actual request handler.
-   * @return This `Router` instance for method chaining.
-   */
-  Router before(String path, Handler handler);
+  /** Add a filter for all requests. */
+  Router filter(HttpFilter handler);
 
   /**
    * Adds a before filter for all requests.
@@ -107,16 +101,13 @@ public interface Router {
    * @param handler The handler to invoke before the actual request handler for all requests.
    * @return This `Router` instance for method chaining.
    */
-  Router before(Handler handler);
-
-  /**
-   * Adds an after filter for the given path.
-   *
-   * @param path The path to match for after filters.
-   * @param handler The handler to invoke after the actual request handler.
-   * @return This `Router` instance for method chaining.
-   */
-  Router after(String path, Handler handler);
+  default Router before(RequestHandler handler) {
+    return filter(
+        (ctx, chain) -> {
+          handler.handle(ctx);
+          chain.proceed();
+        });
+  }
 
   /**
    * Adds an after filter for all requests.
@@ -124,7 +115,13 @@ public interface Router {
    * @param handler The handler to invoke after the actual request handler for all requests.
    * @return This `Router` instance for method chaining.
    */
-  Router after(Handler handler);
+  default Router after(RequestHandler handler) {
+    return filter(
+        (ctx, chain) -> {
+          chain.proceed();
+          handler.handle(ctx);
+        });
+  }
 
   /**
    * Registers an exception handler for the given exception type.
@@ -141,6 +138,10 @@ public interface Router {
    * @return A list of all registered routing entries.
    */
   List<Entry> all();
+
+
+  /** Return all the registered filters. */
+  List<HttpFilter> filters();
 
   /**
    * Returns a map of exception classes to their corresponding exception handlers.
@@ -171,15 +172,11 @@ public interface Router {
      *
      * @return The handler to execute.
      */
-    Handler handler();
+    RequestHandler handler();
   }
 
   /** The type of route entry. */
   enum HttpMethod {
-    /** Before filter. */
-    BEFORE,
-    /** After filter. */
-    AFTER,
     /** HTTP GET. */
     GET,
     /** HTTP POST. */
@@ -195,4 +192,5 @@ public interface Router {
     /** HTTP TRACE. */
     TRACE;
   }
+
 }

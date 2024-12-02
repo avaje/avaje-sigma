@@ -6,7 +6,7 @@ package io.avaje.sigma;
  * @see HttpContext
  */
 @FunctionalInterface
-public interface Handler {
+public interface RequestHandler {
 
   /**
    * Handles the given HTTP request context.

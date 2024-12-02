@@ -1,14 +1,16 @@
 package io.avaje.sigma.core;
 
-import com.amazonaws.services.lambda.runtime.Context;
-import io.avaje.sigma.HttpContext;
-import io.avaje.sigma.Router.HttpMethod;
-import io.avaje.sigma.aws.events.AWSHttpResponse;
-import io.avaje.sigma.aws.events.AWSRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.amazonaws.services.lambda.runtime.Context;
+
+import io.avaje.sigma.HttpContext;
+import io.avaje.sigma.Router.HttpMethod;
+import io.avaje.sigma.aws.events.AWSHttpResponse;
+import io.avaje.sigma.aws.events.AWSRequest;
 
 final class SigmaContext implements HttpContext {
 
@@ -31,7 +33,6 @@ final class SigmaContext implements HttpContext {
 
   private String body;
   private boolean base64Encoded;
-  private boolean skipRemaining;
 
   SigmaContext(ServiceManager mgr, AWSRequest req, Context ctx, String matchedPath) {
     this(mgr, req, ctx, matchedPath, Map.of());
@@ -209,16 +210,6 @@ final class SigmaContext implements HttpContext {
   public HttpContext result(Object content) {
     this.body = mgr.writeBody(contentType, content);
     return this;
-  }
-
-  @Override
-  public void skipRemainingHandlers() {
-    this.skipRemaining = true;
-  }
-
-  @Override
-  public boolean handlersSkipped() {
-    return skipRemaining;
   }
 
   @Override
