@@ -1,8 +1,9 @@
 package io.avaje.sigma.body;
 
+import java.io.UncheckedIOException;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.avaje.jsonb.JsonIoException;
 
 /** BodyMapper based on Jackson's ObjectMapper */
 public class JacksonBodyMapper implements BodyMapper {
@@ -23,7 +24,7 @@ public class JacksonBodyMapper implements BodyMapper {
     try {
       return delegate.readValue(body, clazz);
     } catch (JsonProcessingException e) {
-      throw new JsonIoException(e);
+      throw new UncheckedIOException(e);
     }
   }
 
@@ -32,7 +33,7 @@ public class JacksonBodyMapper implements BodyMapper {
     try {
       return delegate.writeValueAsString(bean);
     } catch (JsonProcessingException e) {
-      throw new JsonIoException(e);
+      throw new UncheckedIOException(e);
     }
   }
 }
