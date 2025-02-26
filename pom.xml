@@ -9,7 +9,7 @@
   </parent>
 	<groupId>io.avaje</groupId>
 	<artifactId>avaje-sigma-parent</artifactId>
-	<version>0.5-SNAPSHOT</version>
+	<version>1.0</version>
 	<packaging>pom</packaging>
 	<name>avaje-sigma</name>
   <scm>
@@ -19,7 +19,7 @@
   <properties>
     <maven.compiler.release>17</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.build.outputTimestamp>2024-12-03T05:30:49Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2025-02-26T05:39:53Z</project.build.outputTimestamp>
   </properties>
 
   <modules>
