@@ -1,9 +1,8 @@
 package io.avaje.sigma.body;
 
-import java.io.UncheckedIOException;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.UncheckedIOException;
 
 /** BodyMapper based on Jackson's ObjectMapper */
 public class JacksonBodyMapper implements BodyMapper {

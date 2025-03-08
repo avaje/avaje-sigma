@@ -1,12 +1,11 @@
 package io.avaje.sigma.core;
 
-import java.util.List;
-import java.util.ListIterator;
-
 import io.avaje.sigma.HttpContext;
 import io.avaje.sigma.HttpFilter;
 import io.avaje.sigma.HttpFilter.FilterChain;
 import io.avaje.sigma.RequestHandler;
+import java.util.List;
+import java.util.ListIterator;
 
 final class BaseFilterChain implements FilterChain {
 

@@ -4,11 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import io.avaje.jsonb.Json;
 import io.avaje.sigma.aws.events.APIGatewayV2HttpEvent;
 import io.avaje.sigma.body.JacksonBodyMapper;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

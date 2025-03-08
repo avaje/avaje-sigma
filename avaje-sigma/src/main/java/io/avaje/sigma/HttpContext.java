@@ -1,12 +1,10 @@
 package io.avaje.sigma;
 
-import java.util.List;
-
 import com.amazonaws.services.lambda.runtime.Context;
-
 import io.avaje.sigma.Router.HttpMethod;
 import io.avaje.sigma.aws.events.AWSRequest;
 import io.avaje.sigma.body.BodyMapper;
+import java.util.List;
 
 /** Provides access to functions for handling the request and response in a lambda invocation. */
 public interface HttpContext {

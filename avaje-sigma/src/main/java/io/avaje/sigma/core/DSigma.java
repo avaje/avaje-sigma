@@ -1,10 +1,5 @@
 package io.avaje.sigma.core;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.function.Consumer;
-
 import io.avaje.sigma.HttpService;
 import io.avaje.sigma.Router;
 import io.avaje.sigma.Sigma;
@@ -12,6 +7,10 @@ import io.avaje.sigma.body.BodyMapper;
 import io.avaje.sigma.body.JacksonBodyMapper;
 import io.avaje.sigma.body.JsonbBodyMapper;
 import io.avaje.sigma.routes.RoutesBuilder;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.function.Consumer;
 
 public final class DSigma implements Sigma {
 

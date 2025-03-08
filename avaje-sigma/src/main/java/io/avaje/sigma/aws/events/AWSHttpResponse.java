@@ -1,9 +1,8 @@
 package io.avaje.sigma.aws.events;
 
+import io.avaje.recordbuilder.RecordBuilder;
 import java.util.List;
 import java.util.Map;
-
-import io.avaje.recordbuilder.RecordBuilder;
 
 @RecordBuilder
 public record AWSHttpResponse(

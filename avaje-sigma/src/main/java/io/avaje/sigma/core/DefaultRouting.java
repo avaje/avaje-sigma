@@ -1,5 +1,10 @@
 package io.avaje.sigma.core;
 
+import io.avaje.sigma.ExceptionHandler;
+import io.avaje.sigma.HttpFilter;
+import io.avaje.sigma.HttpService;
+import io.avaje.sigma.RequestHandler;
+import io.avaje.sigma.Router;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,12 +12,6 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import io.avaje.sigma.ExceptionHandler;
-import io.avaje.sigma.RequestHandler;
-import io.avaje.sigma.HttpFilter;
-import io.avaje.sigma.HttpService;
-import io.avaje.sigma.Router;
 
 final class DefaultRouting implements Router {
 
