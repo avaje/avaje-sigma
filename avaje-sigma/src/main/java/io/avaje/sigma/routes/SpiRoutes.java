@@ -4,7 +4,6 @@ import io.avaje.sigma.HttpContext;
 import io.avaje.sigma.HttpFilter;
 import io.avaje.sigma.RequestHandler;
 import io.avaje.sigma.Router;
-
 import java.util.List;
 import java.util.Map;
 

@@ -5,7 +5,6 @@ import io.avaje.sigma.aws.events.AWSHttpResponse;
 import io.avaje.sigma.aws.events.AWSRequest;
 import io.avaje.sigma.body.BodyMapper;
 import io.avaje.sigma.core.DSigma;
-
 import java.util.Collection;
 import java.util.function.Consumer;
 

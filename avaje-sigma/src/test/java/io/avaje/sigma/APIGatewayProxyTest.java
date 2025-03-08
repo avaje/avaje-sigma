@@ -2,15 +2,13 @@ package io.avaje.sigma;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import io.avaje.jsonb.Json;
 import io.avaje.sigma.aws.events.APIGatewayProxyEvent;
 import io.avaje.sigma.body.JacksonBodyMapper;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 @Json.Import(APIGatewayProxyEvent.class)
 public class APIGatewayProxyTest {

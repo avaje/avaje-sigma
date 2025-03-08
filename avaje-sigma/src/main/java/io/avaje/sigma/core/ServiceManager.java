@@ -2,6 +2,7 @@ package io.avaje.sigma.core;
 
 import static java.util.stream.Collectors.toUnmodifiableMap;
 
+import io.avaje.sigma.body.BodyMapper;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -9,8 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-
-import io.avaje.sigma.body.BodyMapper;
 
 /** Core implementation of SpiServiceManager provided to specific implementations like jetty etc. */
 final class ServiceManager {
