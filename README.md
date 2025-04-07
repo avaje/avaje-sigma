@@ -9,6 +9,18 @@ Provides javalin/jex style request handling for AWS Lambda HTTP requests.
 
 Depending on your infrastructure, you can use `ALBHttpEvent`, `APIGatewayV2HttpEvent`, or `APIGatewayProxyEvent`.
 
+## Quick Start
+
+Add dependency:
+```xml
+<dependency>
+  <groupId>io.avaje</groupId>
+  <artifactId>avaje-sigma</artifactId>
+  <version>${sigma.version}</version>
+</dependency>
+```
+
+Create Server:
 ```java
 public class LambdaRequestHandler
     implements RequestHandler<APIGatewayV2HttpEvent, AWSHttpResponse> {
@@ -28,7 +40,7 @@ public class LambdaRequestHandler
   }
 }
 ```
-## Use with [Avaje Http](https://avaje.io/http/)
+## Quick Start with [Avaje Http](https://avaje.io/http/)
 
 [![Avaje-HTTP](https://img.shields.io/maven-central/v/io.avaje/avaje-http-api.svg?label=avaje.http.version)](https://mvnrepository.com/artifact/io.avaje/avaje-jex)
 
