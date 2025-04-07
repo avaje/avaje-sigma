@@ -5,8 +5,9 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/avaje/avaje-sigma/blob/master/LICENSE)
 [![Discord](https://img.shields.io/discord/1074074312421683250?color=%237289da&label=discord)](https://discord.gg/Qcqf9R27BR)
 
-Provides javalin/jex style request handling for AWS lambda http requests.
+Provides javalin/jex style request handling for AWS Lambda HTTP requests.
 
+Depending on your infrastructure, you can use `ALBHttpEvent`, `APIGatewayV2HttpEvent`, or `APIGatewayProxyEvent`.
 
 ```java
 public class LambdaRequestHandler
@@ -29,6 +30,7 @@ public class LambdaRequestHandler
 ```
 ## Use with [Avaje Http](https://avaje.io/http/)
 
+[![Avaje-HTTP](https://img.shields.io/maven-central/v/io.avaje/avaje-http-api.svg?label=avaje.http.version)](https://mvnrepository.com/artifact/io.avaje/avaje-jex)
 
 ### Add dependencies
 ```xml
@@ -41,14 +43,14 @@ public class LambdaRequestHandler
 <dependency>
   <groupId>io.avaje</groupId>
   <artifactId>avaje-http-api</artifactId>
-  <version>2.8</version>
+  <version>${avaje.http.version}</version>
 </dependency>
 
 <!-- Annotation processor -->
 <dependency>
   <groupId>io.avaje</groupId>
   <artifactId>avaje-http-sigma-generator</artifactId>
-  <version>2.8</version>
+  <version>${avaje.http.version}</version>
   <scope>provided</scope>
   <optional>true</optional>
 </dependency>
