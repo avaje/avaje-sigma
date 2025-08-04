@@ -35,7 +35,7 @@
     <dependency>
       <groupId>io.avaje</groupId>
       <artifactId>avaje-jsonb</artifactId>
-      <version>3.5</version>
+      <version>3.6</version>
       <optional>true</optional>
     </dependency>
 
@@ -48,7 +48,7 @@
     <dependency>
       <groupId>io.avaje</groupId>
       <artifactId>avaje-jsonb-generator</artifactId>
-      <version>3.5</version>
+      <version>3.6</version>
       <scope>test</scope>
     </dependency>
     
