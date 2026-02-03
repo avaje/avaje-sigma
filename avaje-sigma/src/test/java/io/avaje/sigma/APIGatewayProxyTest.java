@@ -21,7 +21,7 @@ public class APIGatewayProxyTest {
   void setUpBeforeClass() throws JsonProcessingException {
 
     String exampleEvent =
-        """
+"""
 {
   "resource": "/my/path",
   "path": "/my/path",
