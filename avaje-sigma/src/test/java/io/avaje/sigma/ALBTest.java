@@ -24,7 +24,7 @@ public class ALBTest {
   void setUpBeforeClass() throws JsonProcessingException {
 
     String exampleEvent =
-        """
+"""
           {
     "requestContext": {
         "elb": {

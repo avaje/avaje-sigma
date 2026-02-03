@@ -21,7 +21,7 @@ public class APIGatewayTest {
   void setUpBeforeClass() throws JsonProcessingException {
 
     String exampleEvent =
-        """
+"""
 {
   "version": "2.0",
   "routeKey": "$default",
